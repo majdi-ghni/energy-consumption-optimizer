@@ -42,8 +42,8 @@ Ensure you have the Docker daemon or Docker Desktop running before proceeding.
     `git clone https://github.com/majdi-ghni/energy-consumption-optimizer.git`
 
 2. **Navigate to the project directory**:
-    `cd energy-consumption-optimizer`
-3. ** Create and start the docker container for the database by executing the following command:
+    `cd energy-consumption-optimizer/src/main/docker`
+3. **Create and start the docker container for the database by executing the following command:
    `docker-compose up --build`
    
 ### DBeaver setup & Database connection

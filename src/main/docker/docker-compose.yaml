@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+
+  #energyConsumptionOptemizer:
+  # build: .
+  #ports:
+  # - "8080:8080"
+  #restart: on-failure
+  #depends_on:
+  # - postgres-db
+  #environment:
+  # SPRING_DATASOURCE_USERNAME: root
+  # SPRING_DATASOURCE_PASSWORD: changme
+  #SPRING_JPA_HIBERNATE_DDL_AUTO: create
+
+  postgres-db:
+    image: postgres
+    restart: on-failure
+    container_name: postgresql-db
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=changeme
+      - POSTGRES_DB=energy_consumption_optimizer
+    healthcheck:
+      test: [ "CMD-SHELL", "sh -c 'pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}'" ]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+volumes:
+  pgdata: { }

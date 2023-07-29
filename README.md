@@ -46,8 +46,15 @@ Ensure you have the Docker daemon or Docker Desktop running before proceeding.
 3. ** Create and start the docker container for the database by executing the following command:
    `docker-compose up --build`
    
-## Getting Started:
+### DBeaver setup & Database connection
 
+Create a new connection of type `PostgreSQL`.
+The database `energy_consumption_optimizer` will be accessible at `localhost` on port `5432`.
+The password for the user `root` is `changeme`.
+
+--------
+
+## Getting Started:
 1. **Navigate to the project directory**:
     `cd energy-consumption-optimizer`
 

@@ -3,6 +3,7 @@ package de.adesso.energyconsumptionoptimizer.model.user;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.Duration;
 import java.time.Instant;
 import java.util.UUID;
 
@@ -22,6 +23,8 @@ public class Appliance {
     private String brand; // the brand of the appliance e.g. Samsung
 
     private String model; // the model of the appliance e.g. washing machines
+
+    private Duration estimatedUsageDuration; // estimated duration of use for each device
 
     @Column(name = "power_rating")
     private Double powerRating; // it  represents the amount of electrical power the appliance consumes in kilowatts

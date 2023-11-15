@@ -29,6 +29,7 @@ public class User implements UserDetails {
 
     private String username;
 
+    // TODO: just one field to hold name. delete first & last names
     @Column(name = "first_name")
     private String firstName;
 
@@ -70,6 +71,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Appliance> appliances;
 
+    // TODO: make relation n -> n for electricityPrices & greenElectricityIndexList
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ElectricityPrice> electricityPrices;
 

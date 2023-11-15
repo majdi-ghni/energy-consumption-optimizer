@@ -24,6 +24,7 @@ public class UserDto {
     @NotNull
     private String username;
 
+    // TODO: just one field to hold name. delete first & last names
     private String firstName;
 
     private String lastName;
@@ -57,6 +58,7 @@ public class UserDto {
 
     private List<Appliance> appliances;
 
+    // TODO: make relation n -> n for electricityPrices & greenElectricityIndexList
     private List<ElectricityPrice> electricityPrices;
 
     private List<GreenElectricityIndex> greenElectricityIndexList;

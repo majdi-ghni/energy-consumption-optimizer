@@ -20,6 +20,7 @@ public class Appliance {
     private UUID id;
     private String name; // name or type of the appliance
 
+    // Todo: delete brand from appliances
     private String brand; // the brand of the appliance e.g. Samsung
 
     private String model; // the model of the appliance e.g. washing machines
@@ -29,6 +30,7 @@ public class Appliance {
     @Column(name = "power_rating")
     private Double powerRating; // it  represents the amount of electrical power the appliance consumes in kilowatts
 
+    // TODO: is this really needed? DELETE
     @Column(name = "average_daily_usage")
     private Double averageDailyUsageHours; //represents the average number of hours the appliance is used per day. It can be used to calculate the daily energy consumption
 

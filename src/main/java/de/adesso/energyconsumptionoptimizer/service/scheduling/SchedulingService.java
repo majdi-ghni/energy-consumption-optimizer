@@ -95,7 +95,7 @@ public class SchedulingService {
      */
     private void electricityPriceInit(String zip) {
 
-        // ToDo: How far in advance users typically want recommendations? is it better to fetch prices daily? -> when asking for the best price, if the prices in DB for less than 24 hours -> get prices from corrently api
+        // ToDo: How far in advance users typically want recommendations? is it better to fetch prices daily? -> whan asking for the best price, if the prices in DB for less than 24 hours -> get prices from corrently api
         // Get the electricity prices for this postal code form DB
         List<ElectricityPrice> electricityPrices = electricityPriceRepository.findByZipcode(zip);
 

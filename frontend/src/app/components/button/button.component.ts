@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -6,8 +6,13 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './button.component.html',
-  styleUrl: './button.component.css'
+  styleUrls: ['./button.component.css'],
 })
 export class ButtonComponent {
+  @Input() buttonText: string = '';
+  @Output() buttonClickedEvent = new EventEmitter<any>();
 
+  onClick() {
+    this.buttonClickedEvent.emit();
+  }
 }

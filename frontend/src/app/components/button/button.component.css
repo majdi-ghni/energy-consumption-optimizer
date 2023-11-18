@@ -1,0 +1,12 @@
+.button {
+  background-color: #047709;
+  border-radius: 4px; /* Round the corners of the BUTTON */
+  border: none;
+  font-weight: bold;
+  width: 255px;
+  height: 52px;
+  color: white;
+  font-size: 24px;
+  font-family: Roboto;
+  letter-spacing: 0.04em;
+}

@@ -1,0 +1,26 @@
+.register-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 15%;
+}
+
+.forget-password-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align to the left */
+}
+
+a {
+  color: black; /* Set the link color to black */
+  font-weight: 1000;
+  font-size: large;
+}
+
+
+span + a {
+  margin-left: 10px; /* Space between every span & a elements */
+}
+
+.button-container {
+  margin-top: 10%;
+}

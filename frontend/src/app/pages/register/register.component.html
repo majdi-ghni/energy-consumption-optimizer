@@ -1,128 +1,120 @@
 <app-background>
-  <div>
-    <form [formGroup]="registerForm">
-      <div class="container">
-        <div class="image-container">
-          <img class="image" src="../../../assets/background-image.jpg">
-        </div>
-        <div class="input-field-container">
-          <input
-            type="text"
-            placeholder="Name"
-            class="input"
-            formControlName="name"
-            [ngClass]="{'error': registerForm.controls?.['name']?.touched && registerForm.controls?.['name']?.hasError('required')}"
-          >
-
-          <mat-error
-            *ngIf="
+  <form [formGroup]="registerForm">
+    <div class="container">
+      <div class="image-container">
+        <img class="image" src="../../../assets/background-image.jpg">
+      </div>
+      <div class="input-field-container">
+        <input
+          type="text"
+          placeholder="Name"
+          class="input"
+          formControlName="name"
+          [ngClass]="{'error': registerForm.controls?.['name']?.touched && registerForm.controls?.['name']?.hasError('required')}"
+        >
+        <mat-error
+          *ngIf="
                 registerForm.controls?.['name']?.touched &&
                 registerForm.controls?.['name']?.hasError('required')
               "
-            class="mat-error"
-          >
-            Erforderlich
-          </mat-error>
-        </div>
-        <div class="input-field-container">
-          <input
-            type="email"
-            placeholder="Email"
-            class="input"
-            formControlName="email"
-            [ngClass]="{'error': registerForm.controls?.['email']?.touched && registerForm.controls?.['email']?.hasError('required')}"
-          >
-          <mat-error
-            *ngIf="
+          class="mat-error"
+        >
+          Erforderlich
+        </mat-error>
+      </div>
+      <div class="input-field-container">
+        <input
+          type="email"
+          placeholder="Email"
+          class="input"
+          formControlName="email"
+          [ngClass]="{'error': registerForm.controls?.['email']?.touched && registerForm.controls?.['email']?.hasError('required')}"
+        >
+        <mat-error
+          *ngIf="
                 registerForm.controls?.['email']?.touched &&
                 registerForm.controls?.['email']?.hasError('required')
               "
-            class="mat-error"
-          >
-            Erforderlich
-          </mat-error>
-
-        </div>
-        <div class="input-field-container">
-          <input
-            type="password"
-            placeholder="Passwort"
-            class="input"
-            formControlName="password"
-            [ngClass]="{'error': registerForm.controls?.['password']?.touched && registerForm.controls?.['password']?.hasError('required')}"
-          >
-
-          <mat-error
-            *ngIf="
+          class="mat-error"
+        >
+          Erforderlich
+        </mat-error>
+      </div>
+      <div class="input-field-container">
+        <input
+          type="password"
+          placeholder="Passwort"
+          class="input"
+          formControlName="password"
+          [ngClass]="{'error': registerForm.controls?.['password']?.touched && registerForm.controls?.['password']?.hasError('required')}"
+        >
+        <mat-error
+          *ngIf="
                 registerForm.controls?.['password']?.touched &&
                 registerForm.controls?.['password']?.hasError('required')
               "
-            class="mat-error"
-          >
-            Erforderlich
-          </mat-error>
-        </div>
-        <div class="input-field-container">
-          <input
-            type="text"
-            placeholder="Stadt"
-            class="input"
-            formControlName="city"
-            [ngClass]="{'error': registerForm.controls?.['city']?.touched && registerForm.controls?.['city']?.hasError('required')}"
-          >
-
-          <mat-error
-            *ngIf="
+          class="mat-error"
+        >
+          Erforderlich
+        </mat-error>
+      </div>
+      <div class="input-field-container">
+        <input
+          type="text"
+          placeholder="Stadt"
+          class="input"
+          formControlName="city"
+          [ngClass]="{'error': registerForm.controls?.['city']?.touched && registerForm.controls?.['city']?.hasError('required')}"
+        >
+        <mat-error
+          *ngIf="
                 registerForm.controls?.['city']?.touched &&
                 registerForm.controls?.['city']?.hasError('required')
               "
-            class="mat-error"
-          >
-            Erforderlich
-          </mat-error>
-        </div>
-        <div class="input-field-container">
-          <input
-            type="text"
-            placeholder="Postleitzahl"
-            class="input"
-            formControlName="zipCode"
-            [ngClass]="{'error': registerForm.controls?.['zipCode']?.touched && registerForm.controls?.['zipCode']?.hasError('required')}"
-          >
-
-          <mat-error
-            *ngIf="
+          class="mat-error"
+        >
+          Erforderlich
+        </mat-error>
+      </div>
+      <div class="input-field-container">
+        <input
+          type="text"
+          placeholder="Postleitzahl"
+          class="input"
+          formControlName="zipCode"
+          [ngClass]="{'error': registerForm.controls?.['zipCode']?.touched && registerForm.controls?.['zipCode']?.hasError('required')}"
+        >
+        <mat-error
+          *ngIf="
                 registerForm.controls?.['zipCode']?.touched &&
                 registerForm.controls?.['zipCode']?.hasError('required')
               "
-            class="mat-error"
-          >
-            Erforderlich
-          </mat-error>
-        </div>
-        <div class="input-field-container">
-          <input
-            type="number"
-            placeholder="Stromtarif (cent/kWh)"
-            class="input"
-            formControlName="actualTariff"
-            [ngClass]="{'error': registerForm.controls?.['actualTariff']?.touched && registerForm.controls?.['actualTariff']?.hasError('required')}"
-          >
-
-          <mat-error
-            *ngIf="
+          class="mat-error"
+        >
+          Erforderlich
+        </mat-error>
+      </div>
+      <div class="input-field-container">
+        <input
+          type="number"
+          placeholder="Stromtarif (cent/kWh)"
+          class="input"
+          formControlName="actualTariff"
+          [ngClass]="{'error': registerForm.controls?.['actualTariff']?.touched && registerForm.controls?.['actualTariff']?.hasError('required')}"
+        >
+        <mat-error
+          *ngIf="
                 registerForm.controls?.['actualTariff']?.touched &&
                 registerForm.controls?.['actualTariff']?.hasError('required')
               "
-            class="mat-error"
-          >
-            Erforderlich
-          </mat-error>
-        </div>
-        <div>
-          <app-button buttonText="REGISTRIEREN" (buttonClickedEvent)="onRegisterClick()"></app-button>
-        </div>
+          class="mat-error"
+        >
+          Erforderlich
+        </mat-error>
       </div>
-    </form>
-  </div>
+      <div>
+        <app-button buttonText="REGISTRIEREN" (buttonClickedEvent)="onRegisterClick()"></app-button>
+      </div>
+    </div>
+  </form>
 </app-background>

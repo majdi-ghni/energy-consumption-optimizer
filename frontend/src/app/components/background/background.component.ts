@@ -6,8 +6,6 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './background.component.html',
-  styleUrl: './background.component.css'
+  styleUrls: ['./background.component.css'],
 })
-export class BackgroundComponent {
-
-}
+export class BackgroundComponent {}

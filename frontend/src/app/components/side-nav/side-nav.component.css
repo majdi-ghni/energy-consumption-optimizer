@@ -17,6 +17,7 @@
   width: 50%;
   border-radius: 5px;
   margin-top: 2px;
+  background-color: white;
 }
 
 a {
@@ -39,13 +40,14 @@ i {
   display: flex;
   align-items: center;
   font-weight: bold;
-  margin-top: 10px;
+  height: 40px;
   border-bottom: 1px solid #a4a0a0;
+  background-color: #FAFAFA;
 }
 
 .home-container i {
-  margin-left: 10px;
-  margin-bottom: 10px;
+  margin: 10px 5px 10px 10px;
+
 }
 
 .home-icon {
@@ -55,7 +57,6 @@ i {
   background-size: 28px 25px;
   height: 28px;
   width: 25px;
-  background-color: #FAFAFA;
 }
 
 .dashboard-icon {

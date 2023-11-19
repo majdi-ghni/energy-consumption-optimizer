@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
+import { HomepageComponent } from './pages/homepage/homepage.component';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,10 @@ export const routes: Routes = [
   {
     path: 'forgotPassword',
     component: ForgotPasswordComponent,
+  },
+  {
+    path: 'home',
+    component: HomepageComponent,
   },
 ];
 

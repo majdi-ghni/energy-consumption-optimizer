@@ -1,5 +1,6 @@
 package de.adesso.energyconsumptionoptimizer.model.electricitypriceandgreenindex;
 
+import de.adesso.energyconsumptionoptimizer.model.user.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -18,4 +19,5 @@ public class ElectricityPriceAndGreenIndexDto {
     private int standardElectricityCo2InGram; // holds the weight of co2 of standard electricity in gram unit
     private String city;
     private String zipCode;
+    User user;
 }

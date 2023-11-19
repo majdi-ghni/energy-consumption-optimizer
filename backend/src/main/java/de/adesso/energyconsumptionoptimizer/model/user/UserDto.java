@@ -1,8 +1,11 @@
 package de.adesso.energyconsumptionoptimizer.model.user;
 
 import de.adesso.energyconsumptionoptimizer.model.elecetricityprice.ElectricityPrice;
+import de.adesso.energyconsumptionoptimizer.model.electricitypriceandgreenindex.ElectricityPriceAndGreenIndex;
 import de.adesso.energyconsumptionoptimizer.model.greenelectricityindex.GreenElectricityIndex;
 import jakarta.persistence.Embedded;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -24,11 +27,6 @@ public class UserDto {
     @NotNull
     private String username;
 
-    // TODO: just one field to hold name. delete first & last names
-    private String firstName;
-
-    private String lastName;
-
     @Embedded
     private Address address;
 
@@ -48,7 +46,7 @@ public class UserDto {
 
     private double totalCo2Footprint; // total amount of CO2 footprint in kilograms of user
 
-    private BigDecimal totalPayments; // total payments made by the user since using the app
+    private BigDecimal totalElectricityCost; // total virtual costs made by the user since using the app
 
     private BigDecimal lastMonthBill;
 
@@ -62,4 +60,7 @@ public class UserDto {
     private List<ElectricityPrice> electricityPrices;
 
     private List<GreenElectricityIndex> greenElectricityIndexList;
+
+    private List<ElectricityPriceAndGreenIndex> electricityPriceAndGreenIndexList;
+
 }

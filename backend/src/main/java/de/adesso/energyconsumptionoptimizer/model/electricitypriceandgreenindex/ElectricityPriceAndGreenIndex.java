@@ -1,9 +1,7 @@
 package de.adesso.energyconsumptionoptimizer.model.electricitypriceandgreenindex;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import de.adesso.energyconsumptionoptimizer.model.user.User;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,5 +27,8 @@ public class ElectricityPriceAndGreenIndex {
     private int standardElectricityCo2InGram; // holds the weight of co2 of standard electricity in gram unit
     private String city;
     private String zipCode;
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
 }

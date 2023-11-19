@@ -1,6 +1,7 @@
 package de.adesso.energyconsumptionoptimizer.model.user;
 
 import de.adesso.energyconsumptionoptimizer.model.elecetricityprice.ElectricityPrice;
+import de.adesso.energyconsumptionoptimizer.model.electricitypriceandgreenindex.ElectricityPriceAndGreenIndex;
 import de.adesso.energyconsumptionoptimizer.model.greenelectricityindex.GreenElectricityIndex;
 import de.adesso.energyconsumptionoptimizer.security.token.accessToken.Token;
 import jakarta.persistence.*;
@@ -29,12 +30,6 @@ public class User implements UserDetails {
 
     private String username;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
     @Embedded
     private Address address;
 
@@ -55,8 +50,8 @@ public class User implements UserDetails {
     private double totalCo2Footprint; // total amount of CO2 footprint in kilograms of user
 
     // TODO: Set initial value. delete and re create DB
-    @Column(name = "total_payments", columnDefinition = "Decimal(7, 2)")
-    private BigDecimal totalPayments = BigDecimal.ZERO; // total payments made by the user since using the app
+    @Column(name = "total_electricity_Cost", columnDefinition = "Decimal(7, 2)")
+    private BigDecimal totalElectricityCost = BigDecimal.ZERO; // total virtual electricity costs made by the user since using the app
 
     @Column(name = "last_month_bill", columnDefinition = "Decimal(7, 2)")
     private BigDecimal lastMonthBill = BigDecimal.ZERO;
@@ -75,6 +70,9 @@ public class User implements UserDetails {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<GreenElectricityIndex> greenElectricityIndexList;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<ElectricityPriceAndGreenIndex> electricityPriceAndGreenIndexList;
 
     @OneToMany(mappedBy = "user")
     private List<Token> tokens;

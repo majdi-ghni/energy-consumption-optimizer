@@ -1,0 +1,6 @@
+<div>
+  <select class="custom-select">
+    <option *ngIf="placeHolderText" value="0" disabled selected>{{placeHolderText}}</option>
+    <option *ngFor="let value of values" [value]="value" (click)="onValueSelect(value)">{{value}}</option>
+  </select>
+</div>

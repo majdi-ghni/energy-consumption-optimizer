@@ -11,6 +11,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-forgot-password',
@@ -23,6 +24,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     FormsModule,
     ButtonComponent,
     BackgroundComponent,
+    RouterLink,
   ],
   templateUrl: './forgot-password.component.html',
   styleUrls: [

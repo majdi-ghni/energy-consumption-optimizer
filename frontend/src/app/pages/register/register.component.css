@@ -5,7 +5,7 @@
   font-weight: 300;
   font-size: 16px;
   width: 100%;
-  height: 52px;
+  height: 42px;
   box-sizing: border-box;
   margin-bottom: 10px;
 }
@@ -28,7 +28,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  text-align: center;
+  text-align: left;
 }
 
 .input-field-container {
@@ -38,7 +38,7 @@
 
 .image-container {
   width: 100%;
-  height: 320px;
+  height: 280px;
   margin-bottom: 20px; /* Add spacing between image and input fields */
 }
 
@@ -46,4 +46,38 @@
   width: 100%;
   height: 100%;
   object-fit: cover; /* Ensure the image covers the container without distortion */
+}
+
+.icon-container {
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  margin-bottom: 5%;
+}
+
+.add-device-icon {
+  background-image: url("../../../assets/add-device-icon.png");
+  display: block;
+  background-repeat: no-repeat;
+  background-size: 30px 30px;
+  height: 30px;
+  width: 30px;
+}
+
+a {
+  color: black; /* Set the link color to black */
+  font-weight: bold;
+}
+
+.login-container {
+  margin-top: 20px;
+}
+
+.login-link {
+  font-size: large;
+  margin-left: 10px;
+}
+
+i {
+  margin-right: 2px;
 }

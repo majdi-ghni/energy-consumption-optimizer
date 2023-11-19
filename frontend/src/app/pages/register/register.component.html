@@ -112,8 +112,16 @@
           Erforderlich
         </mat-error>
       </div>
+      <div class="icon-container">
+        <i routerLink="/login" class='add-device-icon'></i>
+        <a routerLink="/login">Haushaltsgeräte hinzufügen</a>
+      </div>
       <div>
         <app-button buttonText="REGISTRIEREN" (buttonClickedEvent)="onRegisterClick()"></app-button>
+      </div>
+      <div class="login-container">
+        <span>Bereits registriert?</span>
+        <a routerLink="/login" class="login-link">Anmelden</a>
       </div>
     </div>
   </form>

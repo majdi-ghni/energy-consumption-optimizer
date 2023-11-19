@@ -11,6 +11,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../components/button/button.component';
 import { BackgroundComponent } from '../../components/background/background.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -23,9 +24,10 @@ import { BackgroundComponent } from '../../components/background/background.comp
     FormsModule,
     ButtonComponent,
     BackgroundComponent,
+    RouterLink,
   ],
   templateUrl: './register.component.html',
-  styleUrl: './register.component.css',
+  styleUrls: ['./register.component.css'],
   encapsulation: ViewEncapsulation.None,
 })
 export class RegisterComponent implements OnInit {

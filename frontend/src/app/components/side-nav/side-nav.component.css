@@ -1,0 +1,122 @@
+.container {
+}
+
+.nav-icon {
+  background-image: url("../../../assets/side-nav-icon.png");
+  background-repeat: no-repeat;
+  background-size: 23px 23px;
+  display: block;
+  height: 23px;
+  width: 23px;
+}
+
+.side-nav-window {
+  border: 1px solid black;
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  border-radius: 5px;
+  margin-top: 2px;
+}
+
+a {
+  color: black; /* Set the link color to black */
+}
+
+i {
+  margin-right: 7px;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+
+.home-container {
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  margin-top: 10px;
+  border-bottom: 1px solid #a4a0a0;
+}
+
+.home-container i {
+  margin-left: 10px;
+  margin-bottom: 10px;
+}
+
+.home-icon {
+  background-image: url("../../../assets/logo.png");
+  background-repeat: no-repeat;
+  display: block;
+  background-size: 28px 25px;
+  height: 28px;
+  width: 25px;
+  background-color: #FAFAFA;
+}
+
+.dashboard-icon {
+  background-image: url("../../../assets/dashboard-icon.png");
+  background-repeat: no-repeat;
+  display: block;
+  background-size: 28px 25px;
+  height: 28px;
+  width: 25px;
+}
+
+.data-history-icon {
+  background-image: url("../../../assets/data-history-icon.png");
+  background-repeat: no-repeat;
+  display: block;
+  background-size: 28px 25px;
+  height: 28px;
+  width: 25px;
+}
+
+.calender-icon {
+  background-image: url("../../../assets/calender-icon.png");
+  background-repeat: no-repeat;
+  display: block;
+  background-size: 28px 25px;
+  height: 28px;
+  width: 25px;
+}
+
+.bill-icon {
+  background-image: url("../../../assets/bill-icon.png");
+  background-repeat: no-repeat;
+  display: block;
+  background-size: 28px 25px;
+  height: 28px;
+  width: 25px;
+}
+
+.devices-icon {
+  background-image: url("../../../assets/devices-icon.png");
+  background-repeat: no-repeat;
+  display: block;
+  background-size: 28px 25px;
+  height: 28px;
+  width: 25px;
+}
+
+.setting-icon {
+  background-image: url("../../../assets/setting-icon.png");
+  background-repeat: no-repeat;
+  display: block;
+  background-size: 28px 25px;
+  height: 28px;
+  width: 25px;
+}
+
+.logout-icon {
+  background-image: url("../../../assets/logout-icon.png");
+  background-repeat: no-repeat;
+  display: block;
+  background-size: 28px 25px;
+  height: 28px;
+  width: 25px;
+}

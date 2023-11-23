@@ -9,13 +9,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.UUID;
+
+@CrossOrigin
 @RequiredArgsConstructor
-@RequestMapping("/user")
+@RequestMapping("user")
 @RestController
 public class UserController {
 
@@ -46,5 +46,15 @@ public class UserController {
             schedulingService.initUserRegister(userDto.getAddress().getZipCode());
             return ResponseEntity.status(HttpStatus.CREATED).body("Uer created successfully");
         }
+    }
+
+    @GetMapping("get/{id}")
+    public UserDto getUser(@PathVariable UUID id) {
+       return this.userService.getUser(id);
+    }
+
+    @GetMapping("byUsername/{username}")
+    public UserDto getByUsername(@PathVariable String username) {
+        return this.userService.getByUsername(username);
     }
 }

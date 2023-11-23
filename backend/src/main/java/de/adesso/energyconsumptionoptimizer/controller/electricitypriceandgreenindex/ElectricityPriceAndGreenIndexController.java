@@ -29,6 +29,16 @@ public class ElectricityPriceAndGreenIndexController {
     }
 
     /**
+     * Retrieves actual price and green index
+     *
+     * @return The actual ElectricityPriceAndGreenIndexDto object representing the price information.
+     */
+    @GetMapping("/actual")
+    public ElectricityPriceAndGreenIndexDto getActualPriceAndGreenIndex(@RequestParam String zipCode) {
+        return electricityPriceAndGreenIndexService.getActualPriceAndGreenIndex(zipCode);
+    }
+
+    /**
      * Retrieves the price and green index for a specific hour
      *
      * @param time The specific hour for which the data will be fetched.

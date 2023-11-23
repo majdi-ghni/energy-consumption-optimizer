@@ -1,5 +1,6 @@
 package de.adesso.energyconsumptionoptimizer.service.user;
 
+import de.adesso.energyconsumptionoptimizer.model.user.User;
 import de.adesso.energyconsumptionoptimizer.model.user.UserDto;
 import de.adesso.energyconsumptionoptimizer.model.user.UserMapper;
 import de.adesso.energyconsumptionoptimizer.repository.user.UserRepository;
@@ -7,6 +8,8 @@ import de.adesso.energyconsumptionoptimizer.security.auth.AuthenticationResponse
 import de.adesso.energyconsumptionoptimizer.security.auth.AuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -23,13 +26,14 @@ public class UserService {
     /**
      * Persist user in the DB
      *
-     * @param userDto hold the user object
-     * @return created user
-
-    public AuthenticationResponse createUser(UserDto userDto) {
-    User user = userMapper.userDtoToEntity(userDto);
-    user.setPassword("changeme");
-    return null;
+     * @param id hold user id
+     * @return user
+    */
+    public UserDto getUser(UUID id) {
+    return this.userMapper.userEntityToDto(this.userRepository.findById(id).get());
     }
-     */
+
+    public UserDto getByUsername(String username) {
+        return this.userMapper.userEntityToDto(this.userRepository.findByUsername(username).get());
+    }
 }

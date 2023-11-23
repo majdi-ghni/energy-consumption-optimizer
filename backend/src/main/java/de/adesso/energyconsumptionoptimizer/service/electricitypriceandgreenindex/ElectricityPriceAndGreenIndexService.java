@@ -30,7 +30,7 @@ public class ElectricityPriceAndGreenIndexService {
      */
     public static Instant getStringAsInstant(String input) {
         if (input == null || input.isEmpty()) {
-            return Instant.now();
+            return Instant.now().truncatedTo(ChronoUnit.HOURS);
         }
         Instant adjustedInstant = Instant.parse(input).truncatedTo(ChronoUnit.HOURS);
         return adjustedInstant;
@@ -56,7 +56,7 @@ public class ElectricityPriceAndGreenIndexService {
         if (!electricityPriceAndGreenIndexDtoList.isEmpty()) {
             return electricityPriceAndGreenIndexDtoList.get(0);
         } else {
-            throw new RuntimeException("There is no price and green electricity index founded for the given period!");
+            throw new RuntimeException("There is no price and green electricity index founded for the given time!");
         }
     }
 
@@ -138,4 +138,7 @@ public class ElectricityPriceAndGreenIndexService {
         return electricityPriceAndGreenIndexDtoList;
     }
 
+    public ElectricityPriceAndGreenIndexDto getActualPriceAndGreenIndex(String zipCode) {
+        return getPriceAndGreenIndexOfOneHour("", zipCode);
+    }
 }

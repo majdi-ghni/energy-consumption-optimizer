@@ -106,7 +106,7 @@ public class SchedulingService {
         }
 
         // If the end time of the last price is less than 8 hours in the future,
-        // fetch new prices from the API and save them to the repository and there is prices in DB
+        // fetch new prices from the API and save them to the repository
         else if (
                 electricityPrices.get(electricityPrices.size() - 1)
                         .getEndTimeStamp()

@@ -4,6 +4,7 @@ import { RegisterComponent } from './pages/register/register.component';
 import { LoginComponent } from './pages/login/login.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
 import { HomepageComponent } from './pages/homepage/homepage.component';
+import { AuthGuardService } from './services/auth/auth-guard.service';
 
 export const routes: Routes = [
   {
@@ -21,6 +22,7 @@ export const routes: Routes = [
   {
     path: 'home',
     component: HomepageComponent,
+    canActivate: [AuthGuardService],
   },
 ];
 

@@ -1,5 +1,5 @@
 <app-background>
-  <form [formGroup]="registerForm">
+  <form [formGroup]="loginForm">
     <div class="container">
       <div class="image-container">
         <img class="image" src="../../../assets/background-image.jpg">
@@ -10,12 +10,12 @@
           placeholder="Benutzername oder Email"
           class="input"
           formControlName="userNameOrEmail"
-          [ngClass]="{'error': registerForm.controls?.['userNameOrEmail']?.touched && registerForm.controls?.['userNameOrEmail']?.hasError('required')}"
+          [ngClass]="{'error': loginForm.controls?.['userNameOrEmail']?.touched && loginForm.controls?.['userNameOrEmail']?.hasError('required')}"
         >
         <mat-error
           *ngIf="
-                registerForm.controls?.['userNameOrEmail']?.touched &&
-                registerForm.controls?.['userNameOrEmail']?.hasError('required')
+                loginForm.controls?.['userNameOrEmail']?.touched &&
+                loginForm.controls?.['userNameOrEmail']?.hasError('required')
               "
           class="mat-error"
         >
@@ -28,12 +28,12 @@
           placeholder="Passwort"
           class="input"
           formControlName="password"
-          [ngClass]="{'error': registerForm.controls?.['password']?.touched && registerForm.controls?.['password']?.hasError('required')}"
+          [ngClass]="{'error': loginForm.controls?.['password']?.touched && loginForm.controls?.['password']?.hasError('required')}"
         >
         <mat-error
           *ngIf="
-                registerForm.controls?.['password']?.touched &&
-                registerForm.controls?.['password']?.hasError('required')
+                loginForm.controls?.['password']?.touched &&
+                loginForm.controls?.['password']?.hasError('required')
               "
           class="mat-error"
         >

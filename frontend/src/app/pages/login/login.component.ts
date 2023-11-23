@@ -11,7 +11,10 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { SessionManagementService } from '../../services/auth/session-management.service';
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -25,22 +28,38 @@ import { RouterLink } from '@angular/router';
     ButtonComponent,
     BackgroundComponent,
     RouterLink,
+    HttpClientModule,
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css', '../register/register.component.css'],
 })
 export class LoginComponent implements OnInit {
-  registerForm!: FormGroup;
+  loginForm: FormGroup = this.formBuilder.group({
+    userNameOrEmail: ['', Validators.required],
+    password: ['', Validators.required],
+  });
   submitted = false;
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private httpClient: HttpClient,
+    private tokenService: SessionManagementService,
+    private authService: AuthService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
-    this.registerForm = this.formBuilder.group({
-      userNameOrEmail: ['', Validators.required],
-      password: ['', Validators.required],
-    });
+    console.log('hello log in');
   }
 
-  onLoginClick() {}
+  onLoginClick() {
+    const formData = this.loginForm.getRawValue();
+    this.authService
+      .login(formData.userNameOrEmail, formData.password)
+      .subscribe((data: any) => {
+        this.tokenService.saveUser(data);
+        localStorage.setItem('access_token', data.tokens.access_token);
+        this.router.navigate(['/home']);
+      });
+  }
 }

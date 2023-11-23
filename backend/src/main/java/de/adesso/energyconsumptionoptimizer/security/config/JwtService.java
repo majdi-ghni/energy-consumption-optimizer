@@ -55,7 +55,7 @@ public class JwtService {
                 .setIssuer(issuer)
                 .setClaims(claims)
                 .setSubject(userDetails.getUsername())
-                .setExpiration(new Date(System.currentTimeMillis() + refreshExpirationMs))
+//                .setExpiration(new Date(System.currentTimeMillis() + refreshExpirationMs)) // if expiration wanted
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
     }

@@ -1,4 +1,6 @@
+
 .circle {
+  margin-top: 10px;
   border: 6px solid #3DBB51;
   height: 120px;
   width: 120px;
@@ -11,4 +13,14 @@
 
 .value {
   font-weight: bold;
+}
+
+.city {
+  font-weight: bold;
+}
+
+.head-container {
+  margin-top: 10px;
+  display: flex;
+  flex-direction: column;
 }

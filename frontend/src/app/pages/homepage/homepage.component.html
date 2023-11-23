@@ -1,5 +1,19 @@
 <app-background>
   <app-side-nav></app-side-nav>
-  <app-electricity-data></app-electricity-data>
-  <app-select-menu></app-select-menu>
+  <div class="electricity-component">
+    <app-electricity-data></app-electricity-data>
+  </div>
+  <div class="icons-container">
+    <div class="icon-container">
+      <i class="emissions-icon"></i>
+      <a routerLink="">CO2-Fußabdruck</a>
+    </div>
+    <div class="icon-container">
+      <i class="price-icon"></i>
+      <a routerLink="">Strompreis Übersicht</a>
+    </div>
+  </div>
+  <div class="select-menu-container">
+    <app-select-menu></app-select-menu>
+  </div>
 </app-background>

@@ -7,6 +7,7 @@ import { ElectricityDataComponent } from '../../components/electricity-data/elec
 import { UserService } from '../../services/user/user.service';
 import { SessionManagementService } from '../../services/auth/session-management.service';
 import { User } from '../../model/user/user';
+import { DateTime } from 'luxon';
 
 @Component({
   selector: 'app-homepage',
@@ -22,12 +23,18 @@ import { User } from '../../model/user/user';
   styleUrls: ['./homepage.component.css', '../register/register.component.css'],
 })
 export class HomepageComponent implements OnInit {
-  private user: User | null = null;
+  user: User | null = null;
+  city: string = '';
+  startTime: DateTime;
+  endTime: DateTime;
 
   constructor(
     private userService: UserService,
     private sessionManagement: SessionManagementService,
-  ) {}
+  ) {
+    this.startTime = DateTime.now().startOf('hour').toLocal();
+    this.endTime = this.startTime.plus({ hour: 1 });
+  }
 
   ngOnInit() {
     this.loadData();

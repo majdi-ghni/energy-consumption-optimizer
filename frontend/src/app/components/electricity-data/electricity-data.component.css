@@ -1,0 +1,14 @@
+.circle {
+  border: 6px solid #3DBB51;
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.value {
+  font-weight: bold;
+}

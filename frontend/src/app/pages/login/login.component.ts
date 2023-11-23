@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../components/button/button.component';
 import { MatInputModule } from '@angular/material/input';
@@ -33,7 +33,7 @@ import { AuthService } from '../../services/auth/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css', '../register/register.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginForm: FormGroup = this.formBuilder.group({
     userNameOrEmail: ['', Validators.required],
     password: ['', Validators.required],
@@ -48,17 +48,13 @@ export class LoginComponent implements OnInit {
     private router: Router,
   ) {}
 
-  ngOnInit(): void {
-    console.log('hello log in');
-  }
-
   onLoginClick() {
     const formData = this.loginForm.getRawValue();
     this.authService
       .login(formData.userNameOrEmail, formData.password)
       .subscribe((data: any) => {
         this.tokenService.saveUser(data);
-        localStorage.setItem('access_token', data.tokens.access_token);
+        localStorage.setItem('access_token', data.tokens.BEARER);
         this.router.navigate(['/home']);
       });
   }

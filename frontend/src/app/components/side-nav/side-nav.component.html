@@ -31,8 +31,8 @@
       <a routerLink="">Einstellungen</a>
     </div>
     <div class="icon-container">
-      <i class="logout-icon"></i>
-      <a routerLink="">Ausloggen</a>
+      <i (click)="logout()" class="logout-icon"></i>
+      <a (click)="logout()" routerLink="">Ausloggen</a>
     </div>
   </div>
 </div>

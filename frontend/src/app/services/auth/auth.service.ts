@@ -30,6 +30,6 @@ export class AuthService {
   }
 
   logout(): Observable<any> {
-    return this.http.get(apiUrl + '/auth/logout', {});
+    return this.http.get(apiUrl + '/api/v1/auth/logout', {});
   }
 }

@@ -10,12 +10,12 @@
           placeholder="Benutzername oder Email"
           class="input"
           formControlName="userNameOrEmail"
-          [ngClass]="{'error': loginForm.controls?.['userNameOrEmail']?.touched && loginForm.controls?.['userNameOrEmail']?.hasError('required')}"
+          [ngClass]="{'error': loginForm.controls['userNameOrEmail'].touched && loginForm.controls['userNameOrEmail'].hasError('required')}"
         >
         <mat-error
           *ngIf="
-                loginForm.controls?.['userNameOrEmail']?.touched &&
-                loginForm.controls?.['userNameOrEmail']?.hasError('required')
+                loginForm.controls['userNameOrEmail'].touched &&
+                loginForm.controls['userNameOrEmail'].hasError('required')
               "
           class="mat-error"
         >
@@ -28,12 +28,12 @@
           placeholder="Passwort"
           class="input"
           formControlName="password"
-          [ngClass]="{'error': loginForm.controls?.['password']?.touched && loginForm.controls?.['password']?.hasError('required')}"
+          [ngClass]="{'error': loginForm.controls['password'].touched && loginForm.controls['password'].hasError('required')}"
         >
         <mat-error
           *ngIf="
-                loginForm.controls?.['password']?.touched &&
-                loginForm.controls?.['password']?.hasError('required')
+                loginForm.controls['password'].touched &&
+                loginForm.controls['password'].hasError('required')
               "
           class="mat-error"
         >

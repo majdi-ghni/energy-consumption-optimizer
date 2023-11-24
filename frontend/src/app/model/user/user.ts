@@ -1,7 +1,6 @@
 import { Address } from '../address/address';
 import { Role } from '../role/role';
 import { Appliance } from '../applicance/appliance';
-import { ElectricityPriceAndGreenIndex } from '../electricity-price-and-green-index/electricityPriceAndGreenIndex';
 
 export interface User {
   id: string;
@@ -16,5 +15,4 @@ export interface User {
   totalElectricityCost: number;
   lastMonthBill: number;
   appliances: Appliance[];
-  electricityPriceAndGreenIndexList: ElectricityPriceAndGreenIndex[];
 }

@@ -18,4 +18,10 @@ export class UserService {
   getUserByUsername(username: string) {
     return this.http.get<User>(`${apiUrl}/user/byUsername/${username}`);
   }
+
+  createUser(user: User) {
+    return this.http.post<string>(`${apiUrl}/user/create`, user, {
+      responseType: 'text' as 'json',
+    });
+  }
 }

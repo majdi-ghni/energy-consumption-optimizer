@@ -49,10 +49,17 @@ export class LoginComponent {
   ) {}
 
   onLoginClick() {
+    if (this.loginForm.invalid) {
+      console.log('Bitte Logindaten eingeben');
+      return;
+    }
     const formData = this.loginForm.getRawValue();
     this.authService
       .login(formData.userNameOrEmail, formData.password)
       .subscribe((data: any) => {
+        console.log(
+          formData.userNameOrEmail + '  pass:   ' + formData.password,
+        );
         this.tokenService.saveUser(data);
         localStorage.setItem('access_token', data.tokens.BEARER);
         this.router.navigate(['/home']);

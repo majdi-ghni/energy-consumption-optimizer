@@ -53,6 +53,7 @@ export class RegisterComponent implements OnInit {
   ];
   display: string = 'none ';
   appliances: Appliance[] = [];
+  deleteDevice: Appliance | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -141,5 +142,12 @@ export class RegisterComponent implements OnInit {
     this.user.appliances = this.appliances;
     console.log(this.appliances);
     console.log(this.user);
+  }
+
+  deleteAppliance(device: Appliance) {
+    const index = this.appliances.indexOf(device);
+    if (index !== -1) {
+      this.appliances.splice(index, 1);
+    }
   }
 }

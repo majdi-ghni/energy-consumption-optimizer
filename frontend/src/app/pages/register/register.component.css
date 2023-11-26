@@ -64,6 +64,15 @@
   width: 30px;
 }
 
+.delete-device-icon {
+  background-image: url("../../../assets/delete-icon.png");
+  display: block;
+  background-repeat: no-repeat;
+  background-size: 15px 20px;
+  width: 15px;
+  height: 20px;
+}
+
 a {
   color: black; /* Set the link color to black */
   font-weight: bold;
@@ -78,10 +87,23 @@ a {
   margin-left: 10px;
 }
 
-i {
+.icon-container i {
   margin-right: 2px;
 }
 
-.modal-box-container {
-  
+.devices-container ol {
+  list-style-type: none;
+  padding: 0;
+  width: 100%;
+}
+
+.devices-container li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: large;
+}
+
+.devices-container hr {
+  margin-bottom: 5px;
 }

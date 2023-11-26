@@ -8,6 +8,7 @@ import { UserService } from '../../services/user/user.service';
 import { SessionManagementService } from '../../services/auth/session-management.service';
 import { User } from '../../model/user/user';
 import { DateTime } from 'luxon';
+import { ModalBoxComponent } from '../../components/modal-box/modal-box.component';
 
 @Component({
   selector: 'app-homepage',
@@ -16,8 +17,9 @@ import { DateTime } from 'luxon';
     CommonModule,
     SideNavComponent,
     BackgroundComponent,
-    SelectMenuComponent,
     ElectricityDataComponent,
+    ModalBoxComponent,
+    SelectMenuComponent,
   ],
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css', '../register/register.component.css'],

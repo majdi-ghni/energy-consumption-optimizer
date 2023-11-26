@@ -113,8 +113,21 @@
         </mat-error>
       </div>
       <div
-        class="modal-box-container">
+        class="modal-box-container"
+      >
         <app-modal-box [display]="display" (onApplianceInitialize)="addAppliance($event)"></app-modal-box>
+
+        <div *ngIf="appliances.length > 0" class="devices-container">
+          <span style="font-weight: bold">Ihre Haushaltsgeräte</span>
+          <ol *ngFor="let device of appliances">
+            <div class="item-container"></div>
+            <li>
+              {{device.name}}
+              <i (click)="deleteAppliance(device)" class='delete-device-icon'></i>
+            </li>
+            <hr>
+          </ol>
+        </div>
       </div>
       <div class="icon-container">
         <i (click)="openModalClicked()" class='add-device-icon'></i>

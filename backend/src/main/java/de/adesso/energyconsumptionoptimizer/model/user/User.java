@@ -1,5 +1,7 @@
 package de.adesso.energyconsumptionoptimizer.model.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import de.adesso.energyconsumptionoptimizer.model.elecetricityprice.ElectricityPrice;
 import de.adesso.energyconsumptionoptimizer.model.electricitypriceandgreenindex.ElectricityPriceAndGreenIndex;
 import de.adesso.energyconsumptionoptimizer.model.greenelectricityindex.GreenElectricityIndex;
@@ -62,6 +64,7 @@ public class User implements UserDetails {
     @Column(name = "updated_at")
     private Instant updatedAt;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Appliance> appliances;
 

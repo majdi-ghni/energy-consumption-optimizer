@@ -112,9 +112,13 @@
           Erforderlich
         </mat-error>
       </div>
+      <div
+        class="modal-box-container">
+        <app-modal-box [display]="display" (onApplianceInitialize)="addAppliance($event)"></app-modal-box>
+      </div>
       <div class="icon-container">
-        <i routerLink="/login" class='add-device-icon'></i>
-        <a routerLink="/login">Haushaltsgeräte hinzufügen</a>
+        <i (click)="openModalClicked()" class='add-device-icon'></i>
+        <a (click)="openModalClicked()">Haushaltsgeräte hinzufügen</a>
       </div>
       <div>
         <app-button buttonText="REGISTRIEREN" (buttonClickedEvent)="onRegisterClick()"></app-button>

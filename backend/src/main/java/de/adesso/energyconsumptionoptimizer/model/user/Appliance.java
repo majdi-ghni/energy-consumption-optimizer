@@ -1,5 +1,6 @@
 package de.adesso.energyconsumptionoptimizer.model.user;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,8 +21,6 @@ public class Appliance {
     private UUID id;
     private String name; // name or type of the appliance
 
-    private String model; // the model of the appliance e.g. washing machines
-
     private int estimatedUsageDuration; // estimated duration of use for each device in minutes
 
     @Column(name = "power_rating")
@@ -37,6 +36,7 @@ public class Appliance {
     @Column
     private ApplianceUsageType applianceUsageType;
 
+    @JsonBackReference
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;

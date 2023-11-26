@@ -1,7 +1,9 @@
 package de.adesso.energyconsumptionoptimizer.security.auth;
 
+import de.adesso.energyconsumptionoptimizer.model.user.Appliance;
 import de.adesso.energyconsumptionoptimizer.model.user.User;
 import de.adesso.energyconsumptionoptimizer.model.user.UserDto;
+import de.adesso.energyconsumptionoptimizer.repository.ApplianceRepository;
 import de.adesso.energyconsumptionoptimizer.repository.user.UserRepository;
 import de.adesso.energyconsumptionoptimizer.security.config.JwtService;
 import de.adesso.energyconsumptionoptimizer.security.token.TokenType;
@@ -18,10 +20,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -34,6 +33,7 @@ public class AuthenticationService {
     private final TokenRepository tokenRepository;
     private final RefreshTokenRepository refreshTokenRepository;
     private String tokenType = TokenType.BEARER.toString();
+    private final ApplianceRepository applianceRepository;
 
     /**
      * Persist user in the DB anc generates token for the user
@@ -51,17 +51,22 @@ public class AuthenticationService {
                 .actualTariff(request.getActualTariff())
                 .address(request.getAddress())
                 .build();
-
         Collection<SimpleGrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority(user.getRole().toString()));
-        var savedUser = userRepository.save(user);
+
+        var savedUser  = userRepository.save(user);
+        List<Appliance> applianceList = request.getAppliances();
+        applianceList.forEach(a -> a.setUser(savedUser));
+        var savedAppliances = this.applianceRepository.saveAll(applianceList);
+        savedUser.setAppliances(savedAppliances);
+        var updatedUser = userRepository.save(user);
 
         String jwtAccessToken = jwtService.generateAccessToken(user);
         String jwtRefreshToken = jwtService.generateRefreshToken(user);
 
         Map<String, String> tokens = new HashMap<>();
-        saveUserAccessToken(savedUser, jwtAccessToken);
-        saveUserRefreshToken(savedUser, jwtRefreshToken);
+        saveUserAccessToken(updatedUser, jwtAccessToken);
+        saveUserRefreshToken(updatedUser, jwtRefreshToken);
 
         tokens.put(tokenType, jwtAccessToken);
         tokens.put(tokenType, jwtRefreshToken);

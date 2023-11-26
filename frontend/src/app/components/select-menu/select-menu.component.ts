@@ -10,10 +10,10 @@ import { CommonModule } from '@angular/common';
 })
 export class SelectMenuComponent {
   @Input() values: string[] = [];
-  @Input() placeHolderText = '';
-  @Output() selectedValueEvent = new EventEmitter<any>();
+  @Input() placeHolder = '';
+  @Output() selectedValueEvent = new EventEmitter<string>();
 
-  onValueSelect(value: string) {
-    this.selectedValueEvent.emit(value);
+  onValueSelect(value: any) {
+    this.selectedValueEvent.emit(value.value);
   }
 }

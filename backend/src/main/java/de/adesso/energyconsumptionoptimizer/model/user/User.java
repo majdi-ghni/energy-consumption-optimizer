@@ -68,6 +68,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Appliance> appliances;
 
+    //TODO: Price and green electricity objects can be removed.
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<ElectricityPrice> electricityPrices;
 

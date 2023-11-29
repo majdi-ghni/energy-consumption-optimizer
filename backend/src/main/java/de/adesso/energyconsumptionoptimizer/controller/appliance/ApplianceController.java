@@ -32,4 +32,15 @@ public class ApplianceController {
     public void deleteAppliance(@RequestBody Appliance appliance) {
         this.applianceService.deleteAppliance(appliance);
     }
+
+    @GetMapping("/get/{userId}")
+    public List<Appliance> getByUserId (@PathVariable UUID userId){
+        return this.applianceService.getByUserId(userId);
+
+    }
+
+    @GetMapping("/get/{userId}/{deviceName}")
+    public Appliance getByUserIdAndDeviceName(@PathVariable UUID userId, @PathVariable String deviceName) throws Exception {
+        return this.applianceService.getByUserIdAndDeviceName(userId, deviceName);
+    }
 }

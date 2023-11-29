@@ -37,7 +37,7 @@ export class ModalBoxComponent implements OnInit {
     'Dauerbetrieb (24/7, z.B. Kühlschrank)',
     'Sporadischer Betrieb (z.B. Beleuchtung)',
   ];
-  usageType!: ApplianceUsageType;
+  usageType: ApplianceUsageType = ApplianceUsageType.CONTINUOUS_USE;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -51,7 +51,17 @@ export class ModalBoxComponent implements OnInit {
 
   onAddClick() {
     this.addDeviceForm.markAllAsTouched();
-    if (!this.addDeviceForm.valid) {
+    if (
+      !(this.usageType == ApplianceUsageType.CONTINUOUS_USE) &&
+      this.addDeviceForm.invalid
+    ) {
+      console.log('Bitte die Gerät Datenfelder ausfüllen');
+      return;
+    } else if (
+      this.usageType == ApplianceUsageType.CONTINUOUS_USE &&
+      (this.addDeviceForm.get('deviceName')?.invalid ||
+        this.addDeviceForm.get('powerConsumption')?.invalid)
+    ) {
       console.log('Bitte die Gerät Datenfelder ausfüllen');
       return;
     }
@@ -66,13 +76,29 @@ export class ModalBoxComponent implements OnInit {
     this.onApplianceInitialize.emit(this.appliance);
     this.display = 'none';
     this.addDeviceForm.reset();
+    this.usageType = ApplianceUsageType.CONTINUOUS_USE;
   }
 
   setUsageType($event: any) {
-    if ($event.value == this.values[2]) {
+    if ($event == this.values[2]) {
       this.usageType = ApplianceUsageType.SPORADIC_USE;
-    } else if ($event.value == this.values[1]) {
+    } else if ($event == this.values[1]) {
       this.usageType = ApplianceUsageType.CONTINUOUS_USE;
-    } else this.usageType = ApplianceUsageType.PLANNED_USE;
+    } else {
+      this.usageType = ApplianceUsageType.PLANNED_USE;
+      this.addDeviceForm.controls['durationOfUse'].setValue(24 * 60); // setting 24/7 usage duration
+    }
+  }
+
+  onCancelClick() {
+    this.display = 'none';
+    this.addDeviceForm.reset();
+  }
+
+  getUsageType() {
+    return (
+      this.usageType.startsWith('SPORADIC_USE') ||
+      this.usageType.startsWith('PLANNED_USE')
+    );
   }
 }

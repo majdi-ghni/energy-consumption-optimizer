@@ -3,6 +3,7 @@ package de.adesso.energyconsumptionoptimizer.model.user;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -19,6 +20,7 @@ public class Appliance {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
+    @UniqueElements
     private String name; // name or type of the appliance
 
     private int estimatedUsageDuration; // estimated duration of use for each device in minutes

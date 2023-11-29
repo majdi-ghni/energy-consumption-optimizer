@@ -33,15 +33,16 @@
               Erforderlich
             </mat-error>
           </div>
-          <div class="input-field-container">
+          <div class="input-field-container"
+               *ngIf="getUsageType()">
             <input
               [ngClass]="{'error': addDeviceForm.controls['durationOfUse'].touched && addDeviceForm.controls['durationOfUse'].hasError('required')}"
               type="number" formControlName="durationOfUse" id="last-input" class="input"
               placeholder="Nutzungsdauer (Min.)">
             <mat-error
               *ngIf="
-                addDeviceForm.controls['durationOfUse'].touched &&
-                addDeviceForm.controls['durationOfUse'].hasError('required')
+                addDeviceForm.controls['durationOfUse'].touched
+                && addDeviceForm.controls['durationOfUse'].hasError('required')
               "
               class="mat-error"
             >
@@ -62,7 +63,7 @@
       </div>
     </div>
     <div class="button-container">
-      <app-button (click)="display = 'none'" buttonClass="button-secondary-orange" id="cancel"
+      <app-button (click)="onCancelClick()" buttonClass="button-secondary-orange" id="cancel"
                   buttonText="Abbrechen"></app-button>
       <app-button (click)="onAddClick()" buttonClass="button-secondary-green" id="add"
                   buttonText="Hinzufügen"></app-button>

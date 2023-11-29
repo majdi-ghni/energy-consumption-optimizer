@@ -9,6 +9,10 @@ import { SessionManagementService } from '../../services/auth/session-management
 import { User } from '../../model/user/user';
 import { DateTime } from 'luxon';
 import { ModalBoxComponent } from '../../components/modal-box/modal-box.component';
+import { ApplianceService } from '../../services/apliance/appliance.service';
+import { Appliance } from '../../model/applicance/appliance';
+import { ApplianceUsageType } from '../../model/appliance-usage-type/applianceUsageType';
+import { ButtonComponent } from '../../components/button/button.component';
 
 @Component({
   selector: 'app-homepage',
@@ -20,6 +24,7 @@ import { ModalBoxComponent } from '../../components/modal-box/modal-box.componen
     ElectricityDataComponent,
     ModalBoxComponent,
     SelectMenuComponent,
+    ButtonComponent,
   ],
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css', '../register/register.component.css'],
@@ -29,10 +34,15 @@ export class HomepageComponent implements OnInit {
   city: string = '';
   startTime: DateTime;
   endTime: DateTime;
+  appliances: Appliance[] = [];
+  appliancesNames: string[] = [];
+  selectedDeviceName!: string;
+  selectedDevice!: Appliance;
 
   constructor(
     private userService: UserService,
     private sessionManagement: SessionManagementService,
+    private applianceService: ApplianceService,
   ) {
     this.startTime = DateTime.now().startOf('hour').toLocal();
     this.endTime = this.startTime.plus({ hour: 1 });
@@ -45,10 +55,31 @@ export class HomepageComponent implements OnInit {
   loadData() {
     let username = this.sessionManagement.getUser().username;
     this.userService.getUserByUsername(username).subscribe((res) => {
-      console.log(res);
       this.user = res;
-      console.log(this.user.address.zipCode);
       localStorage.setItem('zipCode', this.user.address.zipCode);
+      this.loadAppliances();
     });
+  }
+
+  loadAppliances() {
+    const userId = this.user?.id;
+    if (userId) {
+      this.applianceService.getAppliances(userId).subscribe((res) => {
+        this.appliances = res.filter(
+          // display only devices that could be planed
+          (a) => a.applianceUsageType == ApplianceUsageType.PLANNED_USE,
+        );
+        this.appliancesNames = this.appliances.map((a) => a.name);
+      });
+    }
+  }
+
+  onPlanUsageClick() {
+    const userId = this.user?.id;
+    if (userId) {
+      this.applianceService
+        .getApplianceByUserIdAndApplianceName(userId, this.selectedDeviceName)
+        .subscribe((res) => (this.selectedDevice = res));
+    }
   }
 }

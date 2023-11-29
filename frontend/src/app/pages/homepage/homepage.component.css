@@ -1,7 +1,15 @@
+.nav-container {
+  margin-top: 50px;
+}
+
 .electricity-component {
   display: flex;
   justify-content: center;
   margin-top: 20px;
+}
+
+.icons-container {
+  margin-top: 50px;
 }
 
 .emissions-icon {
@@ -28,4 +36,10 @@
 
 .select-menu-container {
   margin-top: 40px;
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 50px;
 }

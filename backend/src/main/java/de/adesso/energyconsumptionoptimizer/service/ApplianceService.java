@@ -47,4 +47,26 @@ public class ApplianceService {
     public void deleteAppliance(Appliance appliance) {
          this.applianceRepository.delete(appliance);
     }
+
+    public List<Appliance> getByUserId(UUID userId) {
+        return this.applianceRepository.findAppliancesByUserId(userId);
+    }
+
+    public Appliance getByUserIdAndDeviceName(UUID userId, String deviceName) throws Exception {
+        try {
+            List <Appliance> appliances = this.getByUserId(userId);
+            Appliance appliance;
+            for (Appliance device : appliances) {
+                if (device.getName().equals(deviceName)) {
+                    appliance = device;
+                    return appliance;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        throw new Exception("Appliance not found");
+    }
 }

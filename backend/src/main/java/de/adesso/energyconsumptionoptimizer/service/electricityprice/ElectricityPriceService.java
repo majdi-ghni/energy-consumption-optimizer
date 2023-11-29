@@ -66,6 +66,10 @@ public class ElectricityPriceService {
      */
     public List<ElectricityPriceDto> getElectricityPricesOfLocation(String zipCode) {
         try {
+            int zipCodeLength = 5;
+            if (zipCode.length() != zipCodeLength) {
+                zipCode = "10115";
+            }
             String correntlyGetElectricityPriceEndPoint = String.format(correntlyUrl, zipCode);
             RestTemplate restTemplate = new RestTemplate();
             ResponseEntity<String> response = restTemplate.getForEntity(correntlyGetElectricityPriceEndPoint, String.class);

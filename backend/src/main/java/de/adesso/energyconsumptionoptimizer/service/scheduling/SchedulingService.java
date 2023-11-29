@@ -197,6 +197,10 @@ public class SchedulingService {
      * @param zip Postcode
      */
     private void electricityAndGreenIndexInit(String zip) {
+        int zipCodeLength = 5;
+        if (zip.length() != zipCodeLength) {
+            zip = "10115";
+        }
         List<ElectricityPriceAndGreenIndex> electricityPriceAndGreenIndexList = electricityPriceAndGreenIndexRepository.findPriceAndGreenIndexByZipCodeStartingFromNow(zip);
 
         // Preparing green electricity index & price lists. Both of lists starts from same start time stamp.
@@ -240,7 +244,8 @@ public class SchedulingService {
         // Calculate the delay until this end time
         long delay = Duration.between(Instant.now(), endTime).toMillis();
         // Schedule a task to fetch new prices at this end time
-        scheduledExecutorService.schedule(() -> electricityAndGreenIndexInit(zip), delay, TimeUnit.MILLISECONDS);
+        String finalZip = zip;
+        scheduledExecutorService.schedule(() -> electricityAndGreenIndexInit(finalZip), delay, TimeUnit.MILLISECONDS);
     }
 
 

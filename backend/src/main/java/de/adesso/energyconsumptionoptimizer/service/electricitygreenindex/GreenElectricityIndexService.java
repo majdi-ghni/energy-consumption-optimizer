@@ -35,6 +35,10 @@ public class GreenElectricityIndexService {
      */
     public List<GreenElectricityIndexDto> getGreenElectricIndexOFLocation(String zipCode) {
         try {
+            int zipCodeLength = 5;
+            if (zipCode.length() != zipCodeLength) {
+                zipCode = "10115";
+            }
             RestTemplate restTemplate = new RestTemplate();
             String correntlyUrl = String.format("https://api.corrently.io/v2.0/gsi/prediction?zip=%s", zipCode);
             ResponseEntity<String> response = restTemplate.getForEntity(correntlyUrl, String.class);

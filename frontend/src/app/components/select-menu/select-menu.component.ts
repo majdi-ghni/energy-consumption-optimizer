@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./select-menu.component.css'],
 })
 export class SelectMenuComponent {
-  @Input() values: string[] = [];
+  @Input() values: { displayedValue: string; objectValue: any }[] = [];
   @Input() placeHolder = '';
   @Output() selectedValueEvent = new EventEmitter<string>();
 

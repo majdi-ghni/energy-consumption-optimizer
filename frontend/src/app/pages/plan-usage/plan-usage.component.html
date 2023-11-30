@@ -1,0 +1,36 @@
+<app-background>
+  <app-side-nav></app-side-nav>
+  <div class="electricity-component">
+    <app-electricity-data></app-electricity-data>
+  </div>
+  <div class="container">
+    <div class="icon-container">
+      <i class="optimal-period-icon"></i>
+      <a routerLink="">Optimale Zeitraum</a>
+    </div>
+    <div class="icon-container">
+      <i class="green-period-icon"></i>
+      <a routerLink="">Nachhaltigste Zeitraum</a>
+    </div>
+    <div class="icon-container">
+      <i class="cheap-period-icon"></i>
+      <a routerLink="">Günstigste Zeitraum</a>
+    </div>
+    <div class="icon-container">
+      <i class="expensive-period-icon"></i>
+      <a routerLink="">Teuerste Zeitraum</a>
+    </div>
+    <div class="icon-container">
+      <i class="high-emissions-period-icon"></i>
+      <a routerLink="">Höchste CO2-Ausstoß Zeitraum</a>
+    </div>
+    <div class="icon-container">
+      <i class="worst-period-icon"></i>
+      <a routerLink="">Schlimmste Zeitraum</a>
+    </div>
+  </div>
+  <div class="dropdown-container">
+    <app-select-menu [placeHolder]="placeHolder" (selectedValueEvent)="selectedValue=$event"
+                     [values]="values"></app-select-menu>
+  </div>
+</app-background>

@@ -3,10 +3,7 @@ package de.adesso.energyconsumptionoptimizer.controller.electricitypriceandgreen
 import de.adesso.energyconsumptionoptimizer.model.electricitypriceandgreenindex.ElectricityPriceAndGreenIndexDto;
 import de.adesso.energyconsumptionoptimizer.service.electricitypriceandgreenindex.ElectricityPriceAndGreenIndexService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,8 +20,8 @@ public class ElectricityPriceAndGreenIndexController {
      * @param zipCode postcode
      * @return list of electric price and green index
      */
-    @GetMapping("/forecast")
-    public List<ElectricityPriceAndGreenIndexDto> getElectricityPriceAndGreenIndexForecast(String zipCode) {
+    @GetMapping("/forecast/{zipCode}")
+    public List<ElectricityPriceAndGreenIndexDto> getElectricityPriceAndGreenIndexForecast(@PathVariable String zipCode) {
         return electricityPriceAndGreenIndexService.getElectricityPriceAndGreenIndexForecast(zipCode);
     }
 

@@ -3,7 +3,7 @@ import { environment } from '../../environment/environment';
 import { HttpClient } from '@angular/common/http';
 import { ElectricityPriceAndGreenIndex } from '../../model/electricity-price-and-green-index/electricityPriceAndGreenIndex';
 
-const apiUrl = environment.apiUrl;
+const apiUrl = environment.apiUrl.concat('/electricity-price-and-green-index');
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +13,13 @@ export class ElectricityDataService {
 
   getActualElectricityData(zipCode: string) {
     return this.httpClient.get<ElectricityPriceAndGreenIndex>(
-      `${apiUrl}/electricity-price-and-green-index/actual?zipCode=${zipCode}`,
+      `${apiUrl}/actual?zipCode=${zipCode}`,
+    );
+  }
+
+  getElectricityDataForecast(zipCode: string) {
+    return this.httpClient.get<ElectricityPriceAndGreenIndex[]>(
+      `${apiUrl}/forecast/${zipCode}`,
     );
   }
 }

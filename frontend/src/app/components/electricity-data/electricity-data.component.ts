@@ -35,7 +35,7 @@ export class ElectricityDataComponent implements OnInit {
         .getActualElectricityData(zipCode)
         .subscribe((res) => {
           this.electricityData = res;
-          this.price = this.electricityData.price;
+          this.price = this.electricityData.price / 1000;
           this.greenIndex = this.electricityData.gsi;
           this.city = this.electricityData.city;
         });

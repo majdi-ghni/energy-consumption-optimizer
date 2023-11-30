@@ -140,8 +140,6 @@ export class RegisterComponent implements OnInit {
   addAppliance($event: any) {
     this.appliances.push($event);
     this.user.appliances = this.appliances;
-    console.log(this.appliances);
-    console.log(this.user);
   }
 
   deleteAppliance(device: Appliance) {

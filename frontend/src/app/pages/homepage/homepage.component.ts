@@ -13,6 +13,7 @@ import { ApplianceService } from '../../services/apliance/appliance.service';
 import { Appliance } from '../../model/applicance/appliance';
 import { ApplianceUsageType } from '../../model/appliance-usage-type/applianceUsageType';
 import { ButtonComponent } from '../../components/button/button.component';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-homepage',
@@ -35,14 +36,15 @@ export class HomepageComponent implements OnInit {
   startTime: DateTime;
   endTime: DateTime;
   appliances: Appliance[] = [];
-  appliancesNames: string[] = [];
   selectedDeviceName!: string;
   selectedDevice!: Appliance;
+  values: { displayedValue: string; objectValue: Appliance }[] = [];
 
   constructor(
     private userService: UserService,
     private sessionManagement: SessionManagementService,
     private applianceService: ApplianceService,
+    private router: Router,
   ) {
     this.startTime = DateTime.now().startOf('hour').toLocal();
     this.endTime = this.startTime.plus({ hour: 1 });
@@ -69,17 +71,26 @@ export class HomepageComponent implements OnInit {
           // display only devices that could be planed
           (a) => a.applianceUsageType == ApplianceUsageType.PLANNED_USE,
         );
-        this.appliancesNames = this.appliances.map((a) => a.name);
+        this.appliances.forEach((a) => {
+          this.values.push({ displayedValue: a.name, objectValue: a });
+        });
       });
     }
   }
 
   onPlanUsageClick() {
     const userId = this.user?.id;
-    if (userId) {
+    if (userId && this.selectedDeviceName) {
       this.applianceService
         .getApplianceByUserIdAndApplianceName(userId, this.selectedDeviceName)
-        .subscribe((res) => (this.selectedDevice = res));
+        .subscribe((res) => {
+          this.selectedDevice = res;
+          if (this.selectedDevice && this.user) {
+            this.router.navigateByUrl(
+              '/planUsage/'.concat(this.user.id, '/', this.selectedDevice.name),
+            );
+          }
+        });
     }
   }
 }

@@ -14,6 +14,7 @@ import { Appliance } from '../../model/applicance/appliance';
 import { ApplianceUsageType } from '../../model/appliance-usage-type/applianceUsageType';
 import { ButtonComponent } from '../../components/button/button.component';
 import { Router } from '@angular/router';
+import { SelectMenu } from '../../model/select-menu';
 
 @Component({
   selector: 'app-homepage',
@@ -38,7 +39,7 @@ export class HomepageComponent implements OnInit {
   appliances: Appliance[] = [];
   selectedDeviceName!: string;
   selectedDevice!: Appliance;
-  values: { displayedValue: string; objectValue: Appliance }[] = [];
+  values: SelectMenu[] = [];
 
   constructor(
     private userService: UserService,
@@ -80,17 +81,21 @@ export class HomepageComponent implements OnInit {
 
   onPlanUsageClick() {
     const userId = this.user?.id;
-    if (userId && this.selectedDeviceName) {
-      this.applianceService
-        .getApplianceByUserIdAndApplianceName(userId, this.selectedDeviceName)
-        .subscribe((res) => {
-          this.selectedDevice = res;
-          if (this.selectedDevice && this.user) {
-            this.router.navigateByUrl(
-              '/planUsage/'.concat(this.user.id, '/', this.selectedDevice.name),
-            );
-          }
-        });
+    if (userId && this.selectedDevice) {
+      if (this.user) {
+        this.router.navigateByUrl(
+          '/planUsage/'.concat(this.user.id, '/', this.selectedDevice.name),
+        );
+        console.log(this.selectedDevice.name);
+      } else {
+        console.log('Benutzer nicht gefunden');
+      }
+    } else {
+      console.log('Gerät nicht gefunden!');
     }
+  }
+
+  onSelect($event: any) {
+    this.selectedDevice = $event.objectValue;
   }
 }

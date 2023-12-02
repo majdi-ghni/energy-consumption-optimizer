@@ -30,7 +30,7 @@
     </div>
   </div>
   <div class="dropdown-container">
-    <app-select-menu [placeHolder]="placeHolder" (selectedValueEvent)="selectedValue=$event"
+    <app-select-menu [placeHolder]="placeHolder" (selectedValueEvent)="onSelect($event)"
                      [values]="values"></app-select-menu>
   </div>
 </app-background>

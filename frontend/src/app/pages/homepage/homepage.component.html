@@ -14,7 +14,7 @@
     </div>
   </div>
   <div class="select-menu-container">
-    <app-select-menu (selectedValueEvent)="selectedDeviceName = $event" placeHolder="Wählen Sie ein Gerät"
+    <app-select-menu (selectedValueEvent)="onSelect($event)" placeHolder="Wählen Sie ein Gerät"
                      [values]="values"></app-select-menu>
   </div>
   <div class="button-container">

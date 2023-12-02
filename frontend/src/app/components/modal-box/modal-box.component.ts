@@ -12,6 +12,7 @@ import {
 import { Appliance } from '../../model/applicance/appliance';
 import { MatInputModule } from '@angular/material/input';
 import { ApplianceUsageType } from '../../model/appliance-usage-type/applianceUsageType';
+import { SelectMenu } from '../../model/select-menu';
 
 @Component({
   selector: 'app-modal-box',
@@ -32,10 +33,19 @@ export class ModalBoxComponent implements OnInit {
   addDeviceForm!: FormGroup;
   appliance!: Appliance;
   @Output() onApplianceInitialize = new EventEmitter<any>();
-  values = [
-    'Geplanter Betrieb (z.B. Waschmaschine)',
-    'Dauerbetrieb (24/7, z.B. Kühlschrank)',
-    'Sporadischer Betrieb (z.B. Beleuchtung)',
+  values: SelectMenu[] = [
+    {
+      displayedValue: 'Geplanter Betrieb (z.B. Waschmaschine)',
+      objectValue: null,
+    },
+    {
+      displayedValue: 'Dauerbetrieb (24/7, z.B. Kühlschrank)',
+      objectValue: null,
+    },
+    {
+      displayedValue: 'Sporadischer Betrieb (z.B. Beleuchtung)',
+      objectValue: null,
+    },
   ];
   usageType: ApplianceUsageType = ApplianceUsageType.CONTINUOUS_USE;
 
@@ -80,9 +90,9 @@ export class ModalBoxComponent implements OnInit {
   }
 
   setUsageType($event: any) {
-    if ($event == this.values[2]) {
+    if ($event == this.values[2].displayedValue) {
       this.usageType = ApplianceUsageType.SPORADIC_USE;
-    } else if ($event == this.values[1]) {
+    } else if ($event == this.values[1].displayedValue) {
       this.usageType = ApplianceUsageType.CONTINUOUS_USE;
     } else {
       this.usageType = ApplianceUsageType.PLANNED_USE;

@@ -8,6 +8,9 @@ import { SelectMenuComponent } from '../../components/select-menu/select-menu.co
 import { ElectricityDataService } from '../../services/electricity-data/electricity-data.service';
 import { User } from '../../model/user/user';
 import { ElectricityPriceAndGreenIndex } from '../../model/electricity-price-and-green-index/electricityPriceAndGreenIndex';
+import { SelectMenu } from '../../model/select-menu';
+import { DialogService } from '../../services/dialog/dialog.service';
+import { SelectPeriodComponent } from '../../components/select-period/select-period.component';
 
 @Component({
   selector: 'app-plan-usage',
@@ -25,16 +28,16 @@ import { ElectricityPriceAndGreenIndex } from '../../model/electricity-price-and
 })
 export class PlanUsageComponent implements OnInit {
   @Input() loggedUser: User | null = null;
-  selectedValue: string = '';
-  values: {
-    displayedValue: string;
-    objectValue: ElectricityPriceAndGreenIndex | null;
-  }[] = [];
+  selectedPeriod: ElectricityPriceAndGreenIndex | null = null;
+  values: SelectMenu[] = [];
   electricityData: ElectricityPriceAndGreenIndex[] = [];
   zipCode: string | null = null;
   placeHolder = 'Wählen Sie Startzeitpunkt';
 
-  constructor(private electricityDataService: ElectricityDataService) {}
+  constructor(
+    private electricityDataService: ElectricityDataService,
+    private dialogService: DialogService,
+  ) {}
 
   ngOnInit() {
     this.loadData();
@@ -50,7 +53,7 @@ export class PlanUsageComponent implements OnInit {
           this.electricityData.forEach((data) =>
             this.formatElectricityData(data),
           );
-          if (this.values.length > 0) {
+          if (!(this.values.length > 0)) {
             this.values.push({ displayedValue: '', objectValue: null });
           }
         });
@@ -75,5 +78,14 @@ export class PlanUsageComponent implements OnInit {
       data.standardElectricityCo2InGram
     }g je kWh`;
     this.values.push({ displayedValue: formattedString, objectValue: data });
+  }
+
+  onSelect($event: any) {
+    console.log($event.objectValue);
+    this.selectedPeriod = $event.objectValue;
+    const dialogRef = this.dialogService.openDialog(SelectPeriodComponent, {
+      data: { selectedPeriod: this.selectedPeriod, title: '' },
+    });
+    dialogRef.subscribe((result) => console.log('result: ', result));
   }
 }

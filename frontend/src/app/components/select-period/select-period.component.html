@@ -1,0 +1,4 @@
+<div>
+  <app-electricity-data *ngIf="selectedPeriod" [startTime]="startTime" [price]="selectedPeriod.price"
+                        [greenIndex]="selectedPeriod.gsi"></app-electricity-data>
+</div>

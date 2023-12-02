@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +32,9 @@ public class ElectricityPriceAndGreenIndexService {
      */
     public static Instant getStringAsInstant(String input) {
         if (input == null || input.isEmpty()) {
-            return Instant.now().truncatedTo(ChronoUnit.HOURS);
+            LocalDateTime now = LocalDateTime.now();
+            Instant nowInstant = now.atZone(ZoneId.of("Europe/Berlin")).toInstant().truncatedTo(ChronoUnit.HOURS);
+            return nowInstant;
         }
         Instant adjustedInstant = Instant.parse(input).truncatedTo(ChronoUnit.HOURS);
         return adjustedInstant;

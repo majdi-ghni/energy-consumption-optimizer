@@ -61,6 +61,10 @@ public class SchedulingService {
 
         if (zipCodes != null || !zipCodes.isEmpty()) {
             zipCodes.stream().forEach(zip -> {
+                int zipCodeLength = 5;
+                if (zip.length() != zipCodeLength) {
+                    zip = "10115";
+                }
                 electricityPriceInit(zip);
                 greenElectricityIndexInit(zip);
                 electricityAndGreenIndexInit(zip);
@@ -91,35 +95,36 @@ public class SchedulingService {
      * if not then it send request to corrently api to get the prices and persist them in DB. The existed timestamps
      * in DB will be escaped to avoid duplication
      *
-     * @param zip Postcode
+     * @param zipCode Postcode
      */
-    private void electricityPriceInit(String zip) {
+    private void electricityPriceInit(String zipCode) {
 
         // ToDo: How far in advance users typically want recommendations? is it better to fetch prices daily? -> when asking for the best price, if the prices in DB for less than 24 hours -> get prices from corrently api
         // Get the electricity prices for this postal code form DB
-        List<ElectricityPrice> electricityPrices = electricityPriceRepository.findByZipcode(zip);
+        List<ElectricityPrice> electricityPrices = electricityPriceRepository.findByZipcode(zipCode);
+
 
         // If there are no prices for this postal code
         if (electricityPrices == null || electricityPrices.isEmpty()) {
-            List<ElectricityPriceDto> electricityPricesDto = electricityPriceService.getElectricityPricesOfLocation(zip);
+            List<ElectricityPriceDto> electricityPricesDto = electricityPriceService.getElectricityPricesOfLocation(zipCode);
             electricityPrices = electricityPriceMapper.electricityPriceDtoListToEntity(electricityPricesDto);
+            electricityPriceRepository.saveAll(electricityPrices);
+
         }
 
+        ElectricityPrice electricityPrice = electricityPrices.stream()
+                .max(Comparator.comparing(ElectricityPrice::getEndTimeStamp))
+                .get();
         // If the end time of the last price is less than 8 hours in the future,
         // fetch new prices from the API and save them to the repository
-        else if (
-                electricityPrices.get(electricityPrices.size() - 1)
+        if ( electricityPrice != null &&
+                electricityPrice
                         .getEndTimeStamp()
                         .isBefore(Instant.now().plus(MINIMUM_FORECAST_HOURS, ChronoUnit.HOURS))
         ) {
-
             // Calling price from external API (Corrently)
-            List<ElectricityPriceDto> electricityPricesDto = electricityPriceService.getElectricityPricesOfLocation(zip);
+            List<ElectricityPriceDto> electricityPricesDto = electricityPriceService.getElectricityPricesOfLocation(zipCode);
 
-            // Get the newest forecast date from electricityPrices list
-            ElectricityPrice electricityPrice = electricityPrices.stream()
-                    .max(Comparator.comparing(ElectricityPrice::getEndTimeStamp))
-                    .get();
 
             // Get forecasts with startTimeStamp >= electricityPrice.getEndTimeStamp() to avoid duplicate persistence
             List<ElectricityPriceDto> filteredPricesDto = electricityPricesDto.stream().filter(ep -> ep.getStartTimeStamp().equals(electricityPrice.getEndTimeStamp())
@@ -127,16 +132,17 @@ public class SchedulingService {
                     .collect(Collectors.toList());
 
             electricityPrices = electricityPriceMapper.electricityPriceDtoListToEntity(filteredPricesDto);
+
+            electricityPriceRepository.saveAll(electricityPrices);
         }
 
-        electricityPriceRepository.saveAll(electricityPrices);
 
         // Get the end time of the last price minus MINIMUM_FORECAST_HOURS in the future
-        Instant endTime = electricityPrices.get(electricityPrices.size() - 1).getEndTimeStamp().minus(MINIMUM_FORECAST_HOURS, ChronoUnit.HOURS);
+        Instant endTime = electricityPrice.getEndTimeStamp().minus(MINIMUM_FORECAST_HOURS, ChronoUnit.HOURS);
         // Calculate the delay until this end time
         long delay = Duration.between(Instant.now(), endTime).toMillis();
         // Schedule a task to fetch new prices at this end time
-        scheduledExecutorService.schedule(() -> electricityPriceInit(zip), delay, TimeUnit.MILLISECONDS);
+        scheduledExecutorService.schedule(() -> electricityPriceInit(zipCode), delay, TimeUnit.MILLISECONDS);
     }
 
     /**
@@ -157,20 +163,21 @@ public class SchedulingService {
             electricityIndexes = greenElectricityIndexMapper.greenElectricityIndexDtoListToEntity(greenElectricityIndexDtoList);
         }
 
+        // Get the newest forecast date from electricityIndexes list
+        GreenElectricityIndex greenElectricityIndex = electricityIndexes.stream()
+                .max(Comparator.comparing(GreenElectricityIndex::getEndTimeStamp))
+                .get();
+
         // If the end time of the last index is less than 8 hours in future
         // fetch new prices from the API and save them to the repository and there is data of indexes in DB
-        else if (
-                electricityIndexes.get(electricityIndexes.size() - 1)
+        if (
+                greenElectricityIndex
                         .getEndTimeStamp()
                         .isBefore(Instant.now().plus(MINIMUM_FORECAST_HOURS, ChronoUnit.HOURS))
         ) {
 
             List<GreenElectricityIndexDto> greenElectricityIndexDtoList = greenElectricityIndexService.getGreenElectricIndexOFLocation(zip);
 
-            // Get the newest forecast date from electricityIndexes list
-            GreenElectricityIndex greenElectricityIndex = electricityIndexes.stream()
-                    .max(Comparator.comparing(GreenElectricityIndex::getEndTimeStamp))
-                    .get();
 
             // Get forecasts with startTime >= greenElectricityIndex.getEndTime() to avoid duplicate persistence
             List<GreenElectricityIndexDto> filteredIndexesDtoList = greenElectricityIndexDtoList.stream().filter(gei -> gei.getStartTimeStamp().equals(greenElectricityIndex.getEndTimeStamp())
@@ -197,10 +204,6 @@ public class SchedulingService {
      * @param zip Postcode
      */
     private void electricityAndGreenIndexInit(String zip) {
-        int zipCodeLength = 5;
-        if (zip.length() != zipCodeLength) {
-            zip = "10115";
-        }
         List<ElectricityPriceAndGreenIndex> electricityPriceAndGreenIndexList = electricityPriceAndGreenIndexRepository.findPriceAndGreenIndexByZipCodeStartingFromNow(zip);
 
         // Preparing green electricity index & price lists. Both of lists starts from same start time stamp.

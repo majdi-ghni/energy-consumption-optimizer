@@ -24,10 +24,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @RequiredArgsConstructor
 @Service
@@ -305,28 +302,32 @@ public class ElectricityPriceService {
 
         // The number of price intervals in an hour (since each interval is 15 minutes)
         int pricesInHour = 4;
-
+        int countPrices = 0;
         // The number to add to i index. At first, we add 1 until the startTimeStamp minutes = 00, then we chang its value and add 4 to i
         int iterationRange = 1;
         // Use a ZoneId based on your data's timezone
         ZoneId zoneId = ZoneId.systemDefault();
+        List<ElectricityPriceDto> subset = new ArrayList<>();
 
         // Iterate in steps of 4 (representing 1 hour)
-        for (int i = 0; i + pricesInHour <= electricityPriceDtoList.size(); i += iterationRange) {
+        for (int i = 0; i + pricesInHour <= electricityPriceDtoList.size(); i++) {
 
-            List<ElectricityPriceDto> subset = electricityPriceDtoList.subList(i, i + pricesInHour);
 
             // Convert the Instants to LocalDateTime to get the minute values
-            int startMinute = LocalDateTime.ofInstant(subset.get(0).getStartTimeStamp(), zoneId).getMinute();
-            int endMinute = LocalDateTime.ofInstant(subset.get(pricesInHour - 1).getEndTimeStamp(), zoneId).getMinute();
+            int endMinute  = LocalDateTime.ofInstant(electricityPriceDtoList.get(i).getEndTimeStamp(), zoneId).getMinute();
+            int iterations = i + pricesInHour;
+            for (int j = i; j < iterations; j++) {
+                subset.add(electricityPriceDtoList.get(j));
+                if (endMinute == 0) {
+                    break;
+                }
 
-            // Check if the subset covers a whole hour from minute 00 to minute 00
-            if (startMinute == 0 && endMinute == 0) {
-                iterationRange = 4;
+                i++;
+            }
                 // If the subset covers a whole hour, calculate the average and add to the result list
                 ElectricityPriceDto averagePrice = calculateAveragePriceOfHour(subset);
                 hourlyAveragePrices.add(averagePrice);
-            }
+                subset = new ArrayList<>();
         }
 
         return hourlyAveragePrices;

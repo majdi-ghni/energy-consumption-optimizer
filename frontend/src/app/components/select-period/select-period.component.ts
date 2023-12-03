@@ -5,11 +5,12 @@ import { ElectricityDataService } from '../../services/electricity-data/electric
 import { ElectricityDataComponent } from '../electricity-data/electricity-data.component';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DateTime } from 'luxon';
+import { ButtonComponent } from '../button/button.component';
 
 @Component({
   selector: 'app-select-period',
   standalone: true,
-  imports: [CommonModule, ElectricityDataComponent],
+  imports: [CommonModule, ElectricityDataComponent, ButtonComponent],
   templateUrl: './select-period.component.html',
   styleUrls: ['./select-period.component.css'],
 })
@@ -18,24 +19,40 @@ export class SelectPeriodComponent implements OnInit {
   actualPriceDate: ElectricityPriceAndGreenIndex | null = null;
   @Output() confirmed: boolean = false;
   startTime!: DateTime;
+  zipCode: string | null = '';
+  message: string = '';
 
   constructor(
     private electricityDataService: ElectricityDataService,
-    dialogReg: MatDialogRef<SelectPeriodComponent>,
+    private dialogReg: MatDialogRef<SelectPeriodComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
 
   ngOnInit(): void {
+    this.loadData();
     this.selectedPeriod = this.data.selectedPeriod;
     if (this.selectedPeriod) {
       this.startTime = DateTime.fromJSDate(
         new Date(this.selectedPeriod.startTimeStamp) as Date,
       );
     }
-
-    console.log(this.selectedPeriod);
-    console.log(this.startTime);
   }
 
-  loadData() {}
+  loadData() {
+    this.zipCode = localStorage.getItem('zipCode');
+    if (this.zipCode) {
+      this.electricityDataService
+        .getActualElectricityData(this.zipCode)
+        .subscribe((res) => {
+          this.actualPriceDate = res;
+          this.message = this.data.message;
+        });
+    }
+  }
+
+  onCancel() {
+    this.dialogReg.close();
+  }
+
+  onConfirm() {}
 }

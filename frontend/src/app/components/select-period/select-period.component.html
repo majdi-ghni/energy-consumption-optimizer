@@ -1,4 +1,12 @@
-<div>
-  <app-electricity-data *ngIf="selectedPeriod" [startTime]="startTime" [price]="selectedPeriod.price"
-                        [greenIndex]="selectedPeriod.gsi"></app-electricity-data>
+<div class="container">
+  <h3>{{data.title}}</h3>
+  <div class="electricity-data-container">
+    <p [innerHtml]="message"></p>
+  </div>
+  <div class="button-container">
+    <app-button (click)="onCancel()" buttonClass="button-secondary-orange" id="cancel"
+                buttonText="Abbrechen"></app-button>
+    <app-button (click)="onConfirm()" buttonClass="button-secondary-green" id="add"
+                buttonText="Hinzufügen"></app-button>
+  </div>
 </div>

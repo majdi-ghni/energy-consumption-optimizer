@@ -302,7 +302,6 @@ public class ElectricityPriceService {
 
         // The number of price intervals in an hour (since each interval is 15 minutes)
         int pricesInHour = 4;
-        int countPrices = 0;
         // The number to add to i index. At first, we add 1 until the startTimeStamp minutes = 00, then we chang its value and add 4 to i
         int iterationRange = 1;
         // Use a ZoneId based on your data's timezone
@@ -310,13 +309,14 @@ public class ElectricityPriceService {
         List<ElectricityPriceDto> subset = new ArrayList<>();
 
         // Iterate in steps of 4 (representing 1 hour)
-        for (int i = 0; i + pricesInHour <= electricityPriceDtoList.size(); i++) {
+        for (int i = 0; i + 1 <= electricityPriceDtoList.size(); i++) {
 
 
             // Convert the Instants to LocalDateTime to get the minute values
-            int endMinute  = LocalDateTime.ofInstant(electricityPriceDtoList.get(i).getEndTimeStamp(), zoneId).getMinute();
+
             int iterations = i + pricesInHour;
             for (int j = i; j < iterations; j++) {
+                int endMinute  = LocalDateTime.ofInstant(electricityPriceDtoList.get(i).getEndTimeStamp(), zoneId).getMinute();
                 subset.add(electricityPriceDtoList.get(j));
                 if (endMinute == 0) {
                     break;
@@ -347,8 +347,8 @@ public class ElectricityPriceService {
         ElectricityPriceDto tempElectricityPriceDto = ElectricityPriceDto.builder()
                 .localPrice(hourlyPrices.get(0).getLocalPrice())
                 .marketPrice(hourlyPrices.get(0).getMarketPrice())
-                .startTimeStamp(hourlyPrices.get(0).getStartTimeStamp())
-                .endTimeStamp(hourlyPrices.get(0).getEndTimeStamp())
+                .startTimeStamp(hourlyPrices.get(0).getStartTimeStamp().truncatedTo(ChronoUnit.HOURS))
+                .endTimeStamp(hourlyPrices.get(0).getEndTimeStamp().truncatedTo(ChronoUnit.HOURS))
                 .city(hourlyPrices.get(0).getCity())
                 .unit(hourlyPrices.get(0).getUnit())
                 .zipCode(hourlyPrices.get(0).getZipCode())

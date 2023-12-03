@@ -2,6 +2,7 @@ package de.adesso.energyconsumptionoptimizer.controller.electricitypriceandgreen
 
 import de.adesso.energyconsumptionoptimizer.model.electricitypriceandgreenindex.ElectricityPriceAndGreenIndexDto;
 import de.adesso.energyconsumptionoptimizer.service.electricitypriceandgreenindex.ElectricityPriceAndGreenIndexService;
+import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -63,6 +64,28 @@ public class ElectricityPriceAndGreenIndexController {
         return electricityPriceAndGreenIndexService.getPriceAndGreenIndexOfPeriod(start, end, zipCode);
     }
 
+    @GetMapping("/cheapest-hour/{zipCode}")
+    public ElectricityPriceAndGreenIndexDto getCheapestHour(@PathVariable String zipCode){
+        return electricityPriceAndGreenIndexService.getCheapestHour(zipCode);
+    }
+
+    @GetMapping("/expensive-hour/{zipCode}")
+    public ElectricityPriceAndGreenIndexDto getExpensiveHour(@PathVariable String zipCode){
+        return electricityPriceAndGreenIndexService.getExpensiveHour(zipCode);
+    }
+
+    @GetMapping("/green-hour/{zipCode}")
+    public ElectricityPriceAndGreenIndexDto getGreenHour(@PathVariable String zipCode){
+        return electricityPriceAndGreenIndexService.getGreenHour(zipCode);
+    }
+
+    @GetMapping("/highest-emissions-hour/{zipCode}")
+    public ElectricityPriceAndGreenIndexDto getHighestEmissionsHour(@PathVariable String zipCode){
+        return electricityPriceAndGreenIndexService.getHighestEmissionsHour(zipCode);
+    }
+
+
+
     // TODO: implement getting best hour & period
 
     /**
@@ -70,8 +93,8 @@ public class ElectricityPriceAndGreenIndexController {
      *
      * @return best hour
      */
-    @GetMapping("/best-hour")
-    public ElectricityPriceAndGreenIndexDto getBestHour(@RequestParam String zipCode) throws Exception {
+    @GetMapping("/best-hour/{zipCode}")
+    public ElectricityPriceAndGreenIndexDto getBestHour(@PathVariable String zipCode){
         return electricityPriceAndGreenIndexService.getBestHour(zipCode);
     }
 
@@ -84,7 +107,7 @@ public class ElectricityPriceAndGreenIndexController {
      * @return best period to use the electricity with considering the desired duration of use
      */
     @GetMapping("/best-period")
-    public List<ElectricityPriceAndGreenIndexDto> getBestPeriod(@RequestParam String zipCode, @RequestParam int hours) throws Exception {
+    public List<ElectricityPriceAndGreenIndexDto> getBestPeriod(@RequestParam String zipCode, @RequestParam int hours){
         return electricityPriceAndGreenIndexService.getBestPeriod(zipCode, hours);
     }
 

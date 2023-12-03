@@ -244,8 +244,9 @@ public class SchedulingService {
 
         // Get the end time of the last price minus MINIMUM_FORECAST_HOURS in the future
         Instant endTime = electricityPriceAndGreenIndexList.get(electricityPriceAndGreenIndexList.size() - 1).getEndTimeStamp().minus(MINIMUM_FORECAST_HOURS, ChronoUnit.HOURS);
+       int safetyBuffer = 2;
         // Calculate the delay until this end time
-        long delay = Duration.between(Instant.now(), endTime).toMillis();
+        long delay = Duration.between(Instant.now(), endTime.minus(safetyBuffer, ChronoUnit.HOURS)).toMillis();
         // Schedule a task to fetch new prices at this end time
         String finalZip = zip;
         scheduledExecutorService.schedule(() -> electricityAndGreenIndexInit(finalZip), delay, TimeUnit.MILLISECONDS);

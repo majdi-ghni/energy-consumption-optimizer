@@ -6,8 +6,10 @@ import de.adesso.energyconsumptionoptimizer.model.electricitypriceandgreenindex.
 import de.adesso.energyconsumptionoptimizer.model.greenelectricityindex.GreenElectricityIndexDto;
 import de.adesso.energyconsumptionoptimizer.repository.electricitypriceandgreenindex.ElectricityPriceAndGreenIndexRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Pageable;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -110,12 +112,32 @@ public class ElectricityPriceAndGreenIndexService {
 
         // Get index the size of the shortest list, to combine both lists until the end of the shortest list
         int shortestList = Integer.min(hourlyPriceDtoList.size(), greenElectricityIndexDtoList.size());
+        Instant priceStartTime = hourlyPriceDtoList.get(0).getStartTimeStamp();
+        Instant gsiStartTime = greenElectricityIndexDtoList.get(0).getStartTimeStamp();
+        if (!priceStartTime.equals(gsiStartTime)) {
+            if (priceStartTime.isAfter(gsiStartTime)) {
+                for (int i = 0; i < greenElectricityIndexDtoList.size(); i++) {
+                    if (greenElectricityIndexDtoList.get(i).getStartTimeStamp().equals(priceStartTime)) {
+                        greenElectricityIndexDtoList = greenElectricityIndexDtoList.subList(i, greenElectricityIndexDtoList.size());
+                        break;
+                    }
+                }
+            }
 
+            else if (priceStartTime.isBefore(gsiStartTime)) {
+                for (int i = 0; i < hourlyPriceDtoList.size(); i++) {
+                    if (hourlyPriceDtoList.get(i).getStartTimeStamp().equals(gsiStartTime)) {
+                        hourlyPriceDtoList = hourlyPriceDtoList.subList(i, greenElectricityIndexDtoList.size());
+                        break;
+                    }
+                }
+            }
+        }
 
         for (int i = 0; i < shortestList; i++) {
             ElectricityPriceAndGreenIndexDto priceAndGreenIndexDto = ElectricityPriceAndGreenIndexDto.builder()
                     .startTimeStamp(hourlyPriceDtoList.get(i).getStartTimeStamp())
-                    .endTimeStamp(greenElectricityIndexDtoList.get(i).getEndTimeStamp())
+                    .endTimeStamp(hourlyPriceDtoList.get(i).getEndTimeStamp())
                     .price(hourlyPriceDtoList.get(i).getLocalPrice())
                     .priceUnit(hourlyPriceDtoList.get(i).getUnit())
                     .gsi(greenElectricityIndexDtoList.get(i).getGsi())
@@ -144,5 +166,22 @@ public class ElectricityPriceAndGreenIndexService {
 
     public ElectricityPriceAndGreenIndexDto getActualPriceAndGreenIndex(String zipCode) {
         return getPriceAndGreenIndexOfOneHour("", zipCode);
+    }
+
+    public ElectricityPriceAndGreenIndexDto getCheapestHour(String zipCode) {
+        return this.electricityPriceAndGreenIndexMapper.electricityPriceAndGreenIndexEntityToDto(this.electricityPriceAndGreenIndexRepository.findCheapestPriceByZipCodeStartingFromNow(zipCode).get(0));
+    }
+
+    public ElectricityPriceAndGreenIndexDto getExpensiveHour(String zipCode) {
+        return this.electricityPriceAndGreenIndexMapper.electricityPriceAndGreenIndexEntityToDto(this.electricityPriceAndGreenIndexRepository.findHighestPriceByZipCodeStartingFromNow(zipCode).get(0));
+
+    }
+
+    public ElectricityPriceAndGreenIndexDto getGreenHour(String zipCode) {
+        return this.electricityPriceAndGreenIndexMapper.electricityPriceAndGreenIndexEntityToDto(this.electricityPriceAndGreenIndexRepository.findGreenHour(zipCode).get(0));
+    }
+
+    public ElectricityPriceAndGreenIndexDto getHighestEmissionsHour(String zipCode) {
+        return this.electricityPriceAndGreenIndexMapper.electricityPriceAndGreenIndexEntityToDto(this.electricityPriceAndGreenIndexRepository.findHighestEmissionsHour(zipCode).get(0));
     }
 }

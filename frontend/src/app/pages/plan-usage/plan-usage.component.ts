@@ -33,6 +33,11 @@ export class PlanUsageComponent implements OnInit {
   electricityData: ElectricityPriceAndGreenIndex[] = [];
   zipCode: string | null = null;
   placeHolder = 'Wählen Sie Startzeitpunkt';
+  cheapestHour: ElectricityPriceAndGreenIndex | null = null;
+  greenHour: ElectricityPriceAndGreenIndex | null = null;
+  expensiveHour: ElectricityPriceAndGreenIndex | null = null;
+  highEmissionsHour: ElectricityPriceAndGreenIndex | null = null;
+  actualElectricityData: ElectricityPriceAndGreenIndex | null = null;
 
   constructor(
     private electricityDataService: ElectricityDataService,
@@ -46,17 +51,8 @@ export class PlanUsageComponent implements OnInit {
   private loadData() {
     this.zipCode = localStorage.getItem('zipCode');
     if (this.zipCode) {
-      this.electricityDataService
-        .getElectricityDataForecast(this.zipCode)
-        .subscribe((res) => {
-          this.electricityData = res;
-          this.electricityData.forEach((data) =>
-            this.formatElectricityData(data),
-          );
-          if (!(this.values.length > 0)) {
-            this.values.push({ displayedValue: '', objectValue: null });
-          }
-        });
+      this.getSuggestedPeriods();
+      this.getElectricityForecastData();
     } else {
       console.log(
         'Postleitzahl nicht Gefunden! Versuchen es bitte später erneut',
@@ -81,11 +77,174 @@ export class PlanUsageComponent implements OnInit {
   }
 
   onSelect($event: any) {
-    console.log($event.objectValue);
-    this.selectedPeriod = $event.objectValue;
-    const dialogRef = this.dialogService.openDialog(SelectPeriodComponent, {
-      data: { selectedPeriod: this.selectedPeriod, title: '' },
+    if (this.zipCode)
+      this.electricityDataService
+        .getActualElectricityData(this.zipCode)
+        .subscribe((res) => {
+          this.actualElectricityData = res;
+          this.selectedPeriod = $event.objectValue;
+          if (this.selectedPeriod) {
+            const emissionSave = Math.abs(
+              this.selectedPeriod?.gsi - this.actualElectricityData.gsi,
+            );
+            const selectedPrice = (this.selectedPeriod?.price / 1000).toFixed(
+              2,
+            );
+            const actualPrice = (
+              this.actualElectricityData?.price / 1000
+            ).toFixed(2);
+            const dialogRef = this.dialogService.openDialog(
+              SelectPeriodComponent,
+              {
+                data: {
+                  selectedPeriod: this.selectedPeriod,
+                  title: 'Nutzungszeitraum ausgewählt!',
+                  message: `Ihrer Auswahl verursachen sie <strong>${this.greenHour?.gsi} g</strong> CO₂ je Kilo-Watt-Stunde anstelle <strong>${this.actualElectricityData.gsi} g</strong>. Sie kostet Ihnen <strong>${selectedPrice} cent</strong> anstelle von <strong>${actualPrice} cent</strong> pro kWh.`,
+                },
+              },
+            );
+            dialogRef.subscribe((result) => console.log('result: ', result));
+          }
+        });
+  }
+
+  getElectricityForecastData() {
+    if (this.zipCode) {
+      this.electricityDataService
+        .getElectricityDataForecast(this.zipCode)
+        .subscribe((res) => {
+          this.electricityData = res;
+          this.electricityData.forEach((data) =>
+            this.formatElectricityData(data),
+          );
+          if (!(this.values.length > 0)) {
+            this.values.push({ displayedValue: '', objectValue: null });
+          }
+        });
+    }
+  }
+
+  getSuggestedPeriods() {
+    this.electricityDataService
+      .getCheapestHour(this.zipCode)
+      ?.subscribe((res) => (this.cheapestHour = res));
+    this.electricityDataService.getGreenHour(this.zipCode)?.subscribe((res) => {
+      this.greenHour = res;
     });
-    dialogRef.subscribe((result) => console.log('result: ', result));
+    this.electricityDataService
+      .getExpensiveHour(this.zipCode)
+      ?.subscribe((res) => (this.expensiveHour = res));
+    this.electricityDataService
+      .getHighEmissionsHour(this.zipCode)
+      ?.subscribe((res) => (this.highEmissionsHour = res));
+  }
+
+  selectGreen() {
+    if (this.zipCode)
+      this.electricityDataService
+        .getActualElectricityData(this.zipCode)
+        .subscribe((res) => {
+          this.actualElectricityData = res;
+          if (this.greenHour) {
+            const emissionSave = Math.abs(
+              this.greenHour?.gsi - this.actualElectricityData.gsi,
+            );
+            const selectedPrice = (this.greenHour?.price / 1000).toFixed(2);
+            const actualPrice = (
+              this.actualElectricityData?.price / 1000
+            ).toFixed(2);
+            const dialogRef = this.dialogService.openDialog(
+              SelectPeriodComponent,
+              {
+                data: {
+                  selectedPeriod: this.greenHour,
+                  title: 'Sie haben grün gewählt!',
+                  message: `Ihre Stromauswahl ist umweltfreundlich. Mit Ihrer Auswahl verursachen sie <strong>${this.greenHour?.gsi} g </strong> CO₂ je Kilo-Watt-Stunde anstelle <strong>${this.actualElectricityData.gsi} g</strong>. Sie kostet Ihnen <strong>${selectedPrice} cent</strong> anstelle von <strong>${actualPrice} cent</strong> pro kWh.`,
+                },
+              },
+            );
+            dialogRef.subscribe((result) => console.log('result: ', result));
+          }
+        });
+  }
+
+  selectCheap() {
+    if (this.zipCode)
+      this.electricityDataService
+        .getActualElectricityData(this.zipCode)
+        .subscribe((res) => {
+          this.actualElectricityData = res;
+          if (this.cheapestHour) {
+            const emissions = this.cheapestHour?.gsi.toFixed(2);
+            const price = (this.cheapestHour?.price / 1000).toFixed(2);
+            const dialogRef = this.dialogService.openDialog(
+              SelectPeriodComponent,
+              {
+                data: {
+                  selectedPeriod: this.cheapestHour,
+                  title: 'Kosteneffiziente Wahl',
+                  message: `Ihre Stromauswahl ist günstig und spart Ihnen <strong>${price} cent</strong> je Kilo-Watt-Stunde im Vergleich zu aktuellem Strompreis. Ihr Verbrauch verursacht <strong>${emissions} g </strong> CO₂ je Kilo-Watt-Stunde anstelle <strong>${this.actualElectricityData.gsi} g</strong>.`,
+                },
+              },
+            );
+            dialogRef.subscribe((result) => console.log('result: ', result));
+          }
+        });
+  }
+
+  selectHighEmissions() {
+    if (this.zipCode)
+      this.electricityDataService
+        .getActualElectricityData(this.zipCode)
+        .subscribe((res) => {
+          this.actualElectricityData = res;
+          if (this.highEmissionsHour) {
+            const emissions = this.highEmissionsHour?.gsi.toFixed(2);
+            const selectedPrice = (
+              this.highEmissionsHour?.price / 1000
+            ).toFixed(2);
+            const actualPrice = (
+              this.actualElectricityData?.price / 1000
+            ).toFixed(2);
+            const dialogRef = this.dialogService.openDialog(
+              SelectPeriodComponent,
+              {
+                data: {
+                  selectedPeriod: this.highEmissionsHour,
+                  title: 'Achtung, hohe Emissionen!',
+                  message: `Ihre Stromauswahl kostet <strong>${selectedPrice} cent</strong> je Kilo-Watt-Stunde anstelle von <strong>${actualPrice} cent</strong>. Ihr Verbrauch verursacht <strong>${emissions} g </strong> CO₂ je Kilo-Watt-Stunde anstelle <strong>${this.actualElectricityData.gsi} g</strong>.`,
+                },
+              },
+            );
+            dialogRef.subscribe((result) => console.log('result: ', result));
+          }
+        });
+  }
+
+  selectExpensive() {
+    if (this.zipCode)
+      this.electricityDataService
+        .getActualElectricityData(this.zipCode)
+        .subscribe((res) => {
+          this.actualElectricityData = res;
+          if (this.expensiveHour) {
+            const emissions = this.expensiveHour?.gsi.toFixed(2);
+            const selectedPrice = (this.expensiveHour?.price / 1000).toFixed(2);
+            const actualPrice = (
+              this.actualElectricityData?.price / 1000
+            ).toFixed(2);
+            const dialogRef = this.dialogService.openDialog(
+              SelectPeriodComponent,
+              {
+                data: {
+                  selectedPeriod: this.highEmissionsHour,
+                  title: 'Achtung, Spitzenpreis!',
+                  message: `Ihre Stromauswahl kostet <strong>${selectedPrice} cent</strong> je Kilo-Watt-Stunde anstelle von <strong>${actualPrice} cent</strong>. Ihr Verbrauch verursacht <strong>${emissions} g </strong> CO₂ je Kilo-Watt-Stunde anstelle <strong>${this.actualElectricityData.gsi} g</strong>.`,
+                },
+              },
+            );
+            dialogRef.subscribe((result) => console.log('result: ', result));
+          }
+        });
   }
 }

@@ -4,29 +4,33 @@
     <app-electricity-data></app-electricity-data>
   </div>
   <div class="container">
+    <h3>Folgende Zeiträume sollten Sie nutzen:</h3>
     <div class="icon-container">
       <i class="optimal-period-icon"></i>
-      <a routerLink="">Optimale Zeitraum</a>
+      <a>Optimale Zeitraum</a>
     </div>
     <div class="icon-container">
       <i class="green-period-icon"></i>
-      <a routerLink="">Nachhaltigste Zeitraum</a>
+      <a (click)="selectGreen()">Nachhaltigste Zeitraum</a>
     </div>
     <div class="icon-container">
       <i class="cheap-period-icon"></i>
-      <a routerLink="">Günstigste Zeitraum</a>
+      <a (click)="selectCheap()">Günstigste Zeitraum</a>
     </div>
+    <hr>
+    <h3>Folgende Zeiträume sollten Sie vermeiden:</h3>
+
     <div class="icon-container">
       <i class="expensive-period-icon"></i>
-      <a routerLink="">Teuerste Zeitraum</a>
+      <a (click)="selectExpensive()">Teuerste Zeitraum</a>
     </div>
     <div class="icon-container">
       <i class="high-emissions-period-icon"></i>
-      <a routerLink="">Höchste CO2-Ausstoß Zeitraum</a>
+      <a (click)="selectHighEmissions()">Höchste CO2-Ausstoß Zeitraum</a>
     </div>
     <div class="icon-container">
       <i class="worst-period-icon"></i>
-      <a routerLink="">Schlimmste Zeitraum</a>
+      <a>Schlimmste Zeitraum</a>
     </div>
   </div>
   <div class="dropdown-container">

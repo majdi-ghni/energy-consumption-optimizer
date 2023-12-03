@@ -22,4 +22,36 @@ export class ElectricityDataService {
       `${apiUrl}/forecast/${zipCode}`,
     );
   }
+
+  getCheapestHour(zipCode: string | null) {
+    if (zipCode)
+      return this.httpClient.get<ElectricityPriceAndGreenIndex>(
+        `${apiUrl}/cheapest-hour/${zipCode}`,
+      );
+    return null;
+  }
+
+  getGreenHour(zipCode: string | null) {
+    if (zipCode)
+      return this.httpClient.get<ElectricityPriceAndGreenIndex>(
+        `${apiUrl}/green-hour/${zipCode}`,
+      );
+    return null;
+  }
+
+  getExpensiveHour(zipCode: string | null) {
+    if (zipCode)
+      return this.httpClient.get<ElectricityPriceAndGreenIndex>(
+        `${apiUrl}/expensive-hour/${zipCode}`,
+      );
+    return null;
+  }
+
+  getHighEmissionsHour(zipCode: string | null) {
+    if (zipCode)
+      return this.httpClient.get<ElectricityPriceAndGreenIndex>(
+        `${apiUrl}/highest-emissions-hour/${zipCode}`,
+      );
+    return null;
+  }
 }

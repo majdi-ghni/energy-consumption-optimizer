@@ -62,6 +62,7 @@ export class HomepageComponent implements OnInit {
       this.user = res;
       localStorage.setItem('zipCode', this.user.address.zipCode);
       this.loadAppliances();
+      this.sharedDataService.setLoggedUser(this.user);
     });
   }
 
@@ -88,7 +89,6 @@ export class HomepageComponent implements OnInit {
         this.router.navigateByUrl(
           '/planUsage/'.concat(this.user.id, '/', this.selectedDevice.name),
         );
-        console.log(this.selectedDevice.name);
       } else {
         console.log('Benutzer nicht gefunden');
       }

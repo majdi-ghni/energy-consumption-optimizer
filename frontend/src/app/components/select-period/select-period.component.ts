@@ -8,6 +8,12 @@ import { DateTime } from 'luxon';
 import { ButtonComponent } from '../button/button.component';
 import { Appliance } from '../../model/applicance/appliance';
 import { ApplianceService } from '../../services/apliance/appliance.service';
+import { UsagePlanService } from '../../services/usage-plan/usage-plan.service';
+import { SharedDataService } from '../../services/shared-data/shared-data.service';
+import { User } from '../../model/user/user';
+import { DialogService } from '../../services/dialog/dialog.service';
+import { Router } from '@angular/router';
+import { UsagePlan } from '../../model/user/usage-plan';
 
 @Component({
   selector: 'app-select-period',
@@ -24,11 +30,16 @@ export class SelectPeriodComponent implements OnInit {
   startTime!: DateTime;
   zipCode: string | null = '';
   message: string = '';
+  loggedUser: User | null = null;
 
   constructor(
     private electricityDataService: ElectricityDataService,
-    private dialogReg: MatDialogRef<SelectPeriodComponent>,
+    private dialogRef: MatDialogRef<SelectPeriodComponent>,
     private applianceService: ApplianceService,
+    private usagePlanService: UsagePlanService,
+    private sharedDateService: SharedDataService,
+    private dialogService: DialogService,
+    private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
 
@@ -48,7 +59,6 @@ export class SelectPeriodComponent implements OnInit {
       this.electricityDataService
         .getActualElectricityData(this.zipCode)
         .subscribe((res) => {
-          this.actualPriceDate = res;
           this.message = this.data.message;
           this.selectedDevice = this.data.selectedDevice;
         });
@@ -56,10 +66,28 @@ export class SelectPeriodComponent implements OnInit {
   }
 
   onCancel() {
-    this.dialogReg.close();
+    this.dialogRef.close();
   }
 
   onConfirm() {
-    this.applianceService;
+    this.sharedDateService.getLoggedUser().subscribe((res) => {
+      this.loggedUser = res;
+      if (this.loggedUser && this.selectedDevice && this.selectedPeriod) {
+        const usagePlan: UsagePlan = {
+          id: '',
+          userId: this.loggedUser.id,
+          applianceId: this.selectedDevice.id,
+          usagePeriodId: this.selectedPeriod.id,
+          price: this.selectedPeriod.price,
+          gsi: this.selectedPeriod.gsi,
+        };
+        this.usagePlanService
+          .createUsagePlanObject(usagePlan)
+          .subscribe((res) => {
+            this.dialogRef.close();
+            this.router.navigate(['/home']);
+          });
+      }
+    });
   }
 }

@@ -11,6 +11,8 @@ import { ElectricityPriceAndGreenIndex } from '../../model/electricity-price-and
 import { SelectMenu } from '../../model/select-menu';
 import { DialogService } from '../../services/dialog/dialog.service';
 import { SelectPeriodComponent } from '../../components/select-period/select-period.component';
+import { SharedDataService } from '../../services/shared-data/shared-data.service';
+import { Appliance } from '../../model/applicance/appliance';
 
 @Component({
   selector: 'app-plan-usage',
@@ -38,10 +40,12 @@ export class PlanUsageComponent implements OnInit {
   expensiveHour: ElectricityPriceAndGreenIndex | null = null;
   highEmissionsHour: ElectricityPriceAndGreenIndex | null = null;
   actualElectricityData: ElectricityPriceAndGreenIndex | null = null;
+  private selectedDevice: Appliance | null = null;
 
   constructor(
     private electricityDataService: ElectricityDataService,
     private dialogService: DialogService,
+    private sharedDataService: SharedDataService,
   ) {}
 
   ngOnInit() {
@@ -50,14 +54,11 @@ export class PlanUsageComponent implements OnInit {
 
   private loadData() {
     this.zipCode = localStorage.getItem('zipCode');
-    if (this.zipCode) {
+    this.sharedDataService.getSelectedAppliance().subscribe((res) => {
+      this.selectedDevice = res;
       this.getSuggestedPeriods();
       this.getElectricityForecastData();
-    } else {
-      console.log(
-        'Postleitzahl nicht Gefunden! Versuchen es bitte später erneut',
-      );
-    }
+    });
   }
 
   formatElectricityData(data: ElectricityPriceAndGreenIndex) {
@@ -100,6 +101,7 @@ export class PlanUsageComponent implements OnInit {
                   selectedPeriod: this.selectedPeriod,
                   title: 'Nutzungszeitraum ausgewählt!',
                   message: `Ihrer Auswahl verursachen sie <strong>${this.greenHour?.gsi} g</strong> CO₂ je Kilo-Watt-Stunde anstelle <strong>${this.actualElectricityData.gsi} g</strong>. Sie kostet Ihnen <strong>${selectedPrice} cent</strong> anstelle von <strong>${actualPrice} cent</strong> pro kWh.`,
+                  selectedDevice: this.selectedDevice,
                 },
               },
             );
@@ -160,6 +162,7 @@ export class PlanUsageComponent implements OnInit {
                   selectedPeriod: this.greenHour,
                   title: 'Sie haben grün gewählt!',
                   message: `Ihre Stromauswahl ist umweltfreundlich. Mit Ihrer Auswahl verursachen sie <strong>${this.greenHour?.gsi} g </strong> CO₂ je Kilo-Watt-Stunde anstelle <strong>${this.actualElectricityData.gsi} g</strong>. Sie kostet Ihnen <strong>${selectedPrice} cent</strong> anstelle von <strong>${actualPrice} cent</strong> pro kWh.`,
+                  selectedDevice: this.selectedDevice,
                 },
               },
             );
@@ -175,7 +178,7 @@ export class PlanUsageComponent implements OnInit {
         .subscribe((res) => {
           this.actualElectricityData = res;
           if (this.cheapestHour) {
-            const emissions = this.cheapestHour?.gsi.toFixed(2);
+            const emissions = this.cheapestHour?.gsi;
             const price = (this.cheapestHour?.price / 1000).toFixed(2);
             const dialogRef = this.dialogService.openDialog(
               SelectPeriodComponent,
@@ -184,6 +187,7 @@ export class PlanUsageComponent implements OnInit {
                   selectedPeriod: this.cheapestHour,
                   title: 'Kosteneffiziente Wahl',
                   message: `Ihre Stromauswahl ist günstig und spart Ihnen <strong>${price} cent</strong> je Kilo-Watt-Stunde im Vergleich zu aktuellem Strompreis. Ihr Verbrauch verursacht <strong>${emissions} g </strong> CO₂ je Kilo-Watt-Stunde anstelle <strong>${this.actualElectricityData.gsi} g</strong>.`,
+                  selectedDevice: this.selectedDevice,
                 },
               },
             );
@@ -199,7 +203,7 @@ export class PlanUsageComponent implements OnInit {
         .subscribe((res) => {
           this.actualElectricityData = res;
           if (this.highEmissionsHour) {
-            const emissions = this.highEmissionsHour?.gsi.toFixed(2);
+            const emissions = this.highEmissionsHour?.gsi;
             const selectedPrice = (
               this.highEmissionsHour?.price / 1000
             ).toFixed(2);
@@ -213,6 +217,7 @@ export class PlanUsageComponent implements OnInit {
                   selectedPeriod: this.highEmissionsHour,
                   title: 'Achtung, hohe Emissionen!',
                   message: `Ihre Stromauswahl kostet <strong>${selectedPrice} cent</strong> je Kilo-Watt-Stunde anstelle von <strong>${actualPrice} cent</strong>. Ihr Verbrauch verursacht <strong>${emissions} g </strong> CO₂ je Kilo-Watt-Stunde anstelle <strong>${this.actualElectricityData.gsi} g</strong>.`,
+                  selectedDevice: this.selectedDevice,
                 },
               },
             );
@@ -228,7 +233,7 @@ export class PlanUsageComponent implements OnInit {
         .subscribe((res) => {
           this.actualElectricityData = res;
           if (this.expensiveHour) {
-            const emissions = this.expensiveHour?.gsi.toFixed(2);
+            const emissions = this.expensiveHour?.gsi;
             const selectedPrice = (this.expensiveHour?.price / 1000).toFixed(2);
             const actualPrice = (
               this.actualElectricityData?.price / 1000
@@ -240,6 +245,7 @@ export class PlanUsageComponent implements OnInit {
                   selectedPeriod: this.highEmissionsHour,
                   title: 'Achtung, Spitzenpreis!',
                   message: `Ihre Stromauswahl kostet <strong>${selectedPrice} cent</strong> je Kilo-Watt-Stunde anstelle von <strong>${actualPrice} cent</strong>. Ihr Verbrauch verursacht <strong>${emissions} g </strong> CO₂ je Kilo-Watt-Stunde anstelle <strong>${this.actualElectricityData.gsi} g</strong>.`,
+                  selectedDevice: this.selectedDevice,
                 },
               },
             );

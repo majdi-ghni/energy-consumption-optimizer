@@ -3,7 +3,7 @@ package de.adesso.energyconsumptionoptimizer.controller.user;
 import de.adesso.energyconsumptionoptimizer.model.user.UserDto;
 import de.adesso.energyconsumptionoptimizer.repository.user.UserRepository;
 import de.adesso.energyconsumptionoptimizer.service.scheduling.SchedulingService;
-import de.adesso.energyconsumptionoptimizer.service.user.UserService;
+import de.adesso.energyconsumptionoptimizer.service.electricityusage.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

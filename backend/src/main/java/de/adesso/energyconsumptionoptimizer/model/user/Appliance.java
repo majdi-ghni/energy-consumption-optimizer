@@ -20,7 +20,13 @@ public class Appliance {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    @UniqueElements
+
+    @JsonBackReference
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @Column(unique = true)
     private String name; // name or type of the appliance
 
     private int estimatedUsageDuration; // estimated duration of use for each device in minutes
@@ -37,11 +43,6 @@ public class Appliance {
     @Enumerated(EnumType.STRING)
     @Column
     private ApplianceUsageType applianceUsageType;
-
-    @JsonBackReference
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @PrePersist
     protected void onCreate() {

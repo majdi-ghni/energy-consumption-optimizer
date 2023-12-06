@@ -2,7 +2,7 @@ package de.adesso.energyconsumptionoptimizer.service;
 
 import de.adesso.energyconsumptionoptimizer.model.user.Appliance;
 import de.adesso.energyconsumptionoptimizer.model.user.User;
-import de.adesso.energyconsumptionoptimizer.repository.ApplianceRepository;
+import de.adesso.energyconsumptionoptimizer.repository.user.ApplianceRepository;
 import de.adesso.energyconsumptionoptimizer.repository.user.UserRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;

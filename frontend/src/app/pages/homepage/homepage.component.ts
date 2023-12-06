@@ -15,6 +15,7 @@ import { ApplianceUsageType } from '../../model/appliance-usage-type/applianceUs
 import { ButtonComponent } from '../../components/button/button.component';
 import { Router } from '@angular/router';
 import { SelectMenu } from '../../model/select-menu';
+import { SharedDataService } from '../../services/shared-data/shared-data.service';
 
 @Component({
   selector: 'app-homepage',
@@ -37,7 +38,6 @@ export class HomepageComponent implements OnInit {
   startTime: DateTime;
   endTime: DateTime;
   appliances: Appliance[] = [];
-  selectedDeviceName!: string;
   selectedDevice!: Appliance;
   values: SelectMenu[] = [];
 
@@ -46,6 +46,7 @@ export class HomepageComponent implements OnInit {
     private sessionManagement: SessionManagementService,
     private applianceService: ApplianceService,
     private router: Router,
+    private sharedDataService: SharedDataService,
   ) {
     this.startTime = DateTime.now().startOf('hour').toLocal();
     this.endTime = this.startTime.plus({ hour: 1 });
@@ -83,6 +84,7 @@ export class HomepageComponent implements OnInit {
     const userId = this.user?.id;
     if (userId && this.selectedDevice) {
       if (this.user) {
+        this.sharedDataService.setSelectedAppliance(this.selectedDevice);
         this.router.navigateByUrl(
           '/planUsage/'.concat(this.user.id, '/', this.selectedDevice.name),
         );

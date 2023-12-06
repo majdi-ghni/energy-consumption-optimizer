@@ -127,11 +127,12 @@ public class ElectricityPriceAndGreenIndexService {
             else if (priceStartTime.isBefore(gsiStartTime)) {
                 for (int i = 0; i < hourlyPriceDtoList.size(); i++) {
                     if (hourlyPriceDtoList.get(i).getStartTimeStamp().equals(gsiStartTime)) {
-                        hourlyPriceDtoList = hourlyPriceDtoList.subList(i, greenElectricityIndexDtoList.size());
+                        hourlyPriceDtoList = hourlyPriceDtoList.subList(i, hourlyPriceDtoList.size());
                         break;
                     }
                 }
             }
+            shortestList = Integer.min(hourlyPriceDtoList.size(), greenElectricityIndexDtoList.size());
         }
 
         for (int i = 0; i < shortestList; i++) {

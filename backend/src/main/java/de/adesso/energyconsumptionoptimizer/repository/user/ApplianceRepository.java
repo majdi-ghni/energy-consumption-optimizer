@@ -1,4 +1,4 @@
-package de.adesso.energyconsumptionoptimizer.repository;
+package de.adesso.energyconsumptionoptimizer.repository.user;
 
 import de.adesso.energyconsumptionoptimizer.model.user.Appliance;
 import org.springframework.data.jpa.repository.JpaRepository;

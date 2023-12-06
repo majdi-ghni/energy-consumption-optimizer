@@ -6,6 +6,8 @@ import { ElectricityDataComponent } from '../electricity-data/electricity-data.c
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { DateTime } from 'luxon';
 import { ButtonComponent } from '../button/button.component';
+import { Appliance } from '../../model/applicance/appliance';
+import { ApplianceService } from '../../services/apliance/appliance.service';
 
 @Component({
   selector: 'app-select-period',
@@ -17,6 +19,7 @@ import { ButtonComponent } from '../button/button.component';
 export class SelectPeriodComponent implements OnInit {
   selectedPeriod: ElectricityPriceAndGreenIndex | null = null;
   actualPriceDate: ElectricityPriceAndGreenIndex | null = null;
+  selectedDevice: Appliance | null = null;
   @Output() confirmed: boolean = false;
   startTime!: DateTime;
   zipCode: string | null = '';
@@ -25,6 +28,7 @@ export class SelectPeriodComponent implements OnInit {
   constructor(
     private electricityDataService: ElectricityDataService,
     private dialogReg: MatDialogRef<SelectPeriodComponent>,
+    private applianceService: ApplianceService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {}
 
@@ -46,6 +50,7 @@ export class SelectPeriodComponent implements OnInit {
         .subscribe((res) => {
           this.actualPriceDate = res;
           this.message = this.data.message;
+          this.selectedDevice = this.data.selectedDevice;
         });
     }
   }
@@ -54,5 +59,7 @@ export class SelectPeriodComponent implements OnInit {
     this.dialogReg.close();
   }
 
-  onConfirm() {}
+  onConfirm() {
+    this.applianceService;
+  }
 }

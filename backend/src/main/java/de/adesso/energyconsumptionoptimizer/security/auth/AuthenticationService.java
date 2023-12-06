@@ -3,7 +3,7 @@ package de.adesso.energyconsumptionoptimizer.security.auth;
 import de.adesso.energyconsumptionoptimizer.model.user.Appliance;
 import de.adesso.energyconsumptionoptimizer.model.user.User;
 import de.adesso.energyconsumptionoptimizer.model.user.UserDto;
-import de.adesso.energyconsumptionoptimizer.repository.ApplianceRepository;
+import de.adesso.energyconsumptionoptimizer.repository.user.ApplianceRepository;
 import de.adesso.energyconsumptionoptimizer.repository.user.UserRepository;
 import de.adesso.energyconsumptionoptimizer.security.config.JwtService;
 import de.adesso.energyconsumptionoptimizer.security.token.TokenType;

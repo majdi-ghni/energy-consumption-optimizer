@@ -60,9 +60,9 @@ export class HomepageComponent implements OnInit {
     let username = this.sessionManagement.getUser().username;
     this.userService.getUserByUsername(username).subscribe((res) => {
       this.user = res;
+      this.sharedDataService.setLoggedUser(this.user);
       localStorage.setItem('zipCode', this.user.address.zipCode);
       this.loadAppliances();
-      this.sharedDataService.setLoggedUser(this.user);
     });
   }
 

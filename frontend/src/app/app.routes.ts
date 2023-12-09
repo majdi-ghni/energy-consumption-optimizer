@@ -6,6 +6,7 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
 import { HomepageComponent } from './pages/homepage/homepage.component';
 import { AuthGuardService } from './services/auth/auth-guard.service';
 import { PlanUsageComponent } from './pages/plan-usage/plan-usage.component';
+import { AppliancesComponent } from './pages/appliances/appliances.component';
 
 export const routes: Routes = [
   {
@@ -28,6 +29,16 @@ export const routes: Routes = [
   {
     path: 'planUsage/:id/:device',
     component: PlanUsageComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'appliances/:userId',
+    component: AppliancesComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'usagePlans/:userId',
+    component: AppliancesComponent,
     canActivate: [AuthGuardService],
   },
 ];

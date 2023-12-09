@@ -53,7 +53,6 @@ export class RegisterComponent implements OnInit {
   ];
   display: string = 'none ';
   appliances: Appliance[] = [];
-  deleteDevice: Appliance | null = null;
 
   constructor(
     private formBuilder: FormBuilder,

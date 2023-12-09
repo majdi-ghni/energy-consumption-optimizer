@@ -30,6 +30,8 @@ import { SelectMenu } from '../../model/select-menu';
 })
 export class ModalBoxComponent implements OnInit {
   @Input() display: string = 'none';
+  @Input() editDevice: Appliance | null = null;
+
   addDeviceForm!: FormGroup;
   appliance!: Appliance;
   @Output() onApplianceInitialize = new EventEmitter<any>();
@@ -52,11 +54,25 @@ export class ModalBoxComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
-    this.addDeviceForm = this.formBuilder.group({
-      deviceName: ['', Validators.required],
-      powerConsumption: ['', Validators.required],
-      durationOfUse: ['', Validators.required],
-    });
+    // Edit device mode
+    if (this.editDevice) {
+      this.addDeviceForm = this.formBuilder.group({
+        deviceName: [this.editDevice.name, Validators.required],
+        powerConsumption: [this.editDevice.powerRating, Validators.required],
+        durationOfUse: [
+          this.editDevice.estimatedUsageDuration,
+          Validators.required,
+        ],
+      });
+    }
+    // add new device mode
+    else {
+      this.addDeviceForm = this.formBuilder.group({
+        deviceName: ['', Validators.required],
+        powerConsumption: ['', Validators.required],
+        durationOfUse: ['', Validators.required],
+      });
+    }
   }
 
   onAddClick() {

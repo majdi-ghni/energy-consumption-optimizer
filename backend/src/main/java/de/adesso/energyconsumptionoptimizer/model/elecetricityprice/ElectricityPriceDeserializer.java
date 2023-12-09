@@ -7,6 +7,8 @@ import com.fasterxml.jackson.databind.JsonNode;
 
 import java.io.IOException;
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -30,13 +32,15 @@ public class ElectricityPriceDeserializer extends JsonDeserializer<ElectricityPr
 
                 case "start_timestamp":
                     long startTimeStampAsLong = fieldValue.asLong();
-                    Instant startTime = Instant.ofEpochMilli(startTimeStampAsLong);
+                    LocalDateTime startLocal = Instant.ofEpochMilli(startTimeStampAsLong).atZone(ZoneId.of("Europe/Berlin")).toLocalDateTime();
+                    Instant startTime = startLocal.toInstant(ZoneId.of("Europe/Berlin").getRules().getOffset(startLocal));
                     electricityPriceDto.setStartTimeStamp(startTime);
                     break;
 
                 case "end_timestamp":
                     long endTimestampAsLong = fieldValue.asLong();
-                    Instant endTime = Instant.ofEpochMilli(endTimestampAsLong);
+                    LocalDateTime endLocal = Instant.ofEpochMilli(endTimestampAsLong).atZone(ZoneId.of("Europe/Berlin")).toLocalDateTime();
+                    Instant endTime = endLocal.toInstant(ZoneId.of("Europe/Berlin").getRules().getOffset(endLocal));
                     electricityPriceDto.setEndTimeStamp(endTime);
                     break;
 

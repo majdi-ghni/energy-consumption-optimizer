@@ -10,9 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.awt.print.Pageable;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,9 +32,8 @@ public class ElectricityPriceAndGreenIndexService {
      */
     public static Instant getStringAsInstant(String input) {
         if (input == null || input.isEmpty()) {
-            LocalDateTime now = LocalDateTime.now();
-            Instant nowInstant = now.atZone(ZoneId.of("Europe/Berlin")).toInstant().truncatedTo(ChronoUnit.HOURS);
-            return nowInstant;
+            Instant instant =LocalDateTime.now().toInstant(ZoneOffset.UTC).truncatedTo(ChronoUnit.HOURS);
+            return instant;
         }
         Instant adjustedInstant = Instant.parse(input).truncatedTo(ChronoUnit.HOURS);
         return adjustedInstant;

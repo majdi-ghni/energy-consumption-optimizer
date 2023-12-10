@@ -13,6 +13,7 @@ import { DialogService } from '../../services/dialog/dialog.service';
 import { SelectPeriodComponent } from '../../components/select-period/select-period.component';
 import { SharedDataService } from '../../services/shared-data/shared-data.service';
 import { Appliance } from '../../model/applicance/appliance';
+import { NavComponent } from '../../components/nav/nav.component';
 
 @Component({
   selector: 'app-plan-usage',
@@ -24,6 +25,7 @@ import { Appliance } from '../../model/applicance/appliance';
     ElectricityDataComponent,
     RouterLink,
     SelectMenuComponent,
+    NavComponent,
   ],
   templateUrl: './plan-usage.component.html',
   styleUrls: ['./plan-usage.component.css'],

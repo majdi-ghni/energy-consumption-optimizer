@@ -9,6 +9,7 @@ import { BackgroundComponent } from '../../components/background/background.comp
 import { SideNavComponent } from '../../components/side-nav/side-nav.component';
 import { UsagePlanService } from '../../services/usage-plan/usage-plan.service';
 import { UsagePlan } from '../../model/user/usage-plan';
+import { NavComponent } from '../../components/nav/nav.component';
 
 @Component({
   selector: 'app-usage-planes',
@@ -18,6 +19,7 @@ import { UsagePlan } from '../../model/user/usage-plan';
     ModalBoxComponent,
     BackgroundComponent,
     SideNavComponent,
+    NavComponent,
   ],
   templateUrl: './usage-planes.component.html',
   styleUrls: ['./usage-planes.component.css'],
@@ -99,9 +101,5 @@ export class UsagePlanesComponent implements OnInit {
 
   onEditIconClick(usagePlan: UsagePlan) {
     console.log(usagePlan);
-  }
-
-  navigateToDashboard() {
-    this.router.navigate(['/home']);
   }
 }

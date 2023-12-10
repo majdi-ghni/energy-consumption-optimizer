@@ -16,6 +16,7 @@ import { ButtonComponent } from '../../components/button/button.component';
 import { Router } from '@angular/router';
 import { SelectMenu } from '../../model/select-menu';
 import { SharedDataService } from '../../services/shared-data/shared-data.service';
+import { NavComponent } from '../../components/nav/nav.component';
 
 @Component({
   selector: 'app-homepage',
@@ -28,6 +29,7 @@ import { SharedDataService } from '../../services/shared-data/shared-data.servic
     ModalBoxComponent,
     SelectMenuComponent,
     ButtonComponent,
+    NavComponent,
   ],
   templateUrl: './homepage.component.html',
   styleUrls: ['./homepage.component.css', '../register/register.component.css'],

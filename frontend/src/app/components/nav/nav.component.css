@@ -1,0 +1,13 @@
+.nav-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.home-icon {
+  background-image: url("../../../assets/home-icon.png");
+  background-repeat: no-repeat;
+  display: block;
+  background-size: 28px 25px;
+  height: 28px;
+  width: 25px;
+}

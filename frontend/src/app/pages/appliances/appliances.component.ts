@@ -8,6 +8,7 @@ import { ApplianceService } from '../../services/apliance/appliance.service';
 import { SharedDataService } from '../../services/shared-data/shared-data.service';
 import { Appliance } from '../../model/applicance/appliance';
 import { ActivatedRoute } from '@angular/router';
+import { NavComponent } from '../../components/nav/nav.component';
 
 @Component({
   selector: 'app-appliances',
@@ -18,6 +19,7 @@ import { ActivatedRoute } from '@angular/router';
     SideNavComponent,
     ButtonComponent,
     ModalBoxComponent,
+    NavComponent,
   ],
   templateUrl: './appliances.component.html',
   styleUrls: ['./appliances.component.css'],

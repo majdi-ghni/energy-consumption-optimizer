@@ -1,0 +1,17 @@
+<div class="container">
+  <h3 style="font-weight: bold">Nutzungszeitraum Informationen</h3>
+  <div class="electricity-data-container">
+    <p style="font-weight: bold">Start: <span
+      style="font-weight: normal;">{{data.startTimeStamp | date: 'dd.MMM.yyyy hh-mm'}}</span></p>
+    <p style="font-weight: bold">Ende: <span
+      style="font-weight: normal;">{{data.endTimeStamp | date: 'dd.MMM.yyyy hh-mm'}}</span></p>
+    <p style="font-weight: bold">Preis: <span
+      style="font-weight: normal;">{{(data.price / 1000).toFixed(2)}} cent je kWh</span></p>
+    <p style="font-weight: bold">CO₂: <span
+      style="font-weight: normal;">{{(data.gsi)}} g je kWh</span></p>
+  </div>
+  <div class="button-container">
+    <app-button (click)="close()" buttonClass="button-secondary-green" id="cancel"
+                buttonText="OK"></app-button>
+  </div>
+</div>

@@ -16,7 +16,9 @@ import { SharedDataService } from '../../services/shared-data/shared-data.servic
 export class SideNavComponent implements OnInit {
   clicked: boolean = false;
   loggedUser: User | null = null;
-  appliancesLink: string = '/appliances/';
+  appliancesLink: string = '';
+  usagePlansLink: string = '';
+  userId: string | null = null;
 
   constructor(
     private sessionManagementService: SessionManagementService,
@@ -26,13 +28,11 @@ export class SideNavComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.sharedDataService.getLoggedUser().subscribe((res) => {
-      this.loggedUser = res;
-      console.log(this.loggedUser?.id);
-      if (this.loggedUser) {
-        this.appliancesLink = this.appliancesLink.concat(this.loggedUser.id);
-      }
-    });
+    this.userId = localStorage.getItem('userId');
+    if (this.userId) {
+      this.appliancesLink = '/appliances/'.concat(this.userId);
+      this.usagePlansLink = '/usagePlans/'.concat(this.userId);
+    }
   }
 
   onClick() {

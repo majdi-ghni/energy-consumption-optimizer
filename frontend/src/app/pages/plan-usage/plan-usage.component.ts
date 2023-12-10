@@ -40,7 +40,7 @@ export class PlanUsageComponent implements OnInit {
   expensiveHour: ElectricityPriceAndGreenIndex | null = null;
   highEmissionsHour: ElectricityPriceAndGreenIndex | null = null;
   actualElectricityData: ElectricityPriceAndGreenIndex | null = null;
-  private selectedDevice: Appliance | null = null;
+  selectedDevice: Appliance | null = null;
 
   constructor(
     private electricityDataService: ElectricityDataService,
@@ -84,10 +84,8 @@ export class PlanUsageComponent implements OnInit {
         .subscribe((res) => {
           this.actualElectricityData = res;
           this.selectedPeriod = $event.objectValue;
+          console.log(this.selectedPeriod);
           if (this.selectedPeriod) {
-            const emissionSave = Math.abs(
-              this.selectedPeriod?.gsi - this.actualElectricityData.gsi,
-            );
             const selectedPrice = (this.selectedPeriod?.price / 1000).toFixed(
               2,
             );
@@ -100,7 +98,7 @@ export class PlanUsageComponent implements OnInit {
                 data: {
                   selectedPeriod: this.selectedPeriod,
                   title: 'Nutzungszeitraum ausgewählt!',
-                  message: `Ihrer Auswahl verursachen sie <strong>${this.greenHour?.gsi} g</strong> CO₂ je Kilo-Watt-Stunde anstelle <strong>${this.actualElectricityData.gsi} g</strong>. Sie kostet Ihnen <strong>${selectedPrice} cent</strong> anstelle von <strong>${actualPrice} cent</strong> pro kWh.`,
+                  message: `Ihrer Auswahl verursachen sie <strong>${this.selectedPeriod?.gsi} g</strong> CO₂ je Kilo-Watt-Stunde anstelle <strong>${this.actualElectricityData.gsi} g</strong>. Sie kostet Ihnen <strong>${selectedPrice} cent</strong> anstelle von <strong>${actualPrice} cent</strong> pro kWh.`,
                   selectedDevice: this.selectedDevice,
                 },
               },
@@ -148,9 +146,6 @@ export class PlanUsageComponent implements OnInit {
         .subscribe((res) => {
           this.actualElectricityData = res;
           if (this.greenHour) {
-            const emissionSave = Math.abs(
-              this.greenHour?.gsi - this.actualElectricityData.gsi,
-            );
             const selectedPrice = (this.greenHour?.price / 1000).toFixed(2);
             const actualPrice = (
               this.actualElectricityData?.price / 1000
@@ -166,7 +161,7 @@ export class PlanUsageComponent implements OnInit {
                 },
               },
             );
-            dialogRef.subscribe((result) => console.log('result: ', result));
+            dialogRef.subscribe();
           }
         });
   }
@@ -210,6 +205,7 @@ export class PlanUsageComponent implements OnInit {
             const actualPrice = (
               this.actualElectricityData?.price / 1000
             ).toFixed(2);
+            console.log(this.highEmissionsHour);
             const dialogRef = this.dialogService.openDialog(
               SelectPeriodComponent,
               {

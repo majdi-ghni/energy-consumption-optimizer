@@ -12,6 +12,7 @@ export class UsagePlanService {
   constructor(private httpClient: HttpClient) {}
 
   createUsagePlanObject(usagePlan: UsagePlan) {
+    console.log(usagePlan);
     return this.httpClient.post<UsagePlan>(`${apiUrl}/create`, usagePlan);
   }
 
@@ -24,7 +25,10 @@ export class UsagePlanService {
   }
 
   getAllUsagesByUserId(userId: string) {
-    return this.httpClient.get<UsagePlan[]>(`/get/all/by-user/${userId}`);
+    console.log(`/get/all/by-user/${userId}`);
+    return this.httpClient.get<UsagePlan[]>(
+      `${apiUrl}/get/all/by-user/${userId}`,
+    );
   }
 
   getAllUsagesByUsagePeriodId(usagePeriodId: string) {

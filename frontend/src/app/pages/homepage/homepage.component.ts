@@ -53,20 +53,23 @@ export class HomepageComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('on init');
     this.loadData();
   }
 
   loadData() {
+    console.log('load data');
     let username = this.sessionManagement.getUser().username;
     this.userService.getUserByUsername(username).subscribe((res) => {
       this.user = res;
-      this.sharedDataService.setLoggedUser(this.user);
+      localStorage.setItem('userId', this.user.id);
       localStorage.setItem('zipCode', this.user.address.zipCode);
       this.loadAppliances();
     });
   }
 
   loadAppliances() {
+    console.log('load appliances');
     const userId = this.user?.id;
     if (userId) {
       this.applianceService.getAppliances(userId).subscribe((res) => {
@@ -82,6 +85,7 @@ export class HomepageComponent implements OnInit {
   }
 
   onPlanUsageClick() {
+    console.log('on plan usage click');
     const userId = this.user?.id;
     if (userId && this.selectedDevice) {
       if (this.user) {
@@ -98,6 +102,7 @@ export class HomepageComponent implements OnInit {
   }
 
   onSelect($event: any) {
+    console.log('on select');
     this.selectedDevice = $event.objectValue;
   }
 }

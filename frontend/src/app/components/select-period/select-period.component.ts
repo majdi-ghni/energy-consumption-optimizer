@@ -31,13 +31,14 @@ export class SelectPeriodComponent implements OnInit {
   zipCode: string | null = '';
   message: string = '';
   loggedUser: User | null = null;
+  userId: string | null = null;
 
   constructor(
     private electricityDataService: ElectricityDataService,
     private dialogRef: MatDialogRef<SelectPeriodComponent>,
     private applianceService: ApplianceService,
     private usagePlanService: UsagePlanService,
-    private sharedDateService: SharedDataService,
+    private sharedDataService: SharedDataService,
     private dialogService: DialogService,
     private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -45,15 +46,16 @@ export class SelectPeriodComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+  }
+
+  loadData() {
     this.selectedPeriod = this.data.selectedPeriod;
     if (this.selectedPeriod) {
       this.startTime = DateTime.fromJSDate(
         new Date(this.selectedPeriod.startTimeStamp) as Date,
       );
     }
-  }
 
-  loadData() {
     this.zipCode = localStorage.getItem('zipCode');
     if (this.zipCode) {
       this.electricityDataService
@@ -70,24 +72,25 @@ export class SelectPeriodComponent implements OnInit {
   }
 
   onConfirm() {
-    this.sharedDateService.getLoggedUser().subscribe((res) => {
-      this.loggedUser = res;
-      if (this.loggedUser && this.selectedDevice && this.selectedPeriod) {
-        const usagePlan: UsagePlan = {
-          id: '',
-          userId: this.loggedUser.id,
-          applianceId: this.selectedDevice.id,
-          usagePeriodId: this.selectedPeriod.id,
-          price: this.selectedPeriod.price,
-          gsi: this.selectedPeriod.gsi,
-        };
-        this.usagePlanService
-          .createUsagePlanObject(usagePlan)
-          .subscribe((res) => {
-            this.dialogRef.close();
-            this.router.navigate(['/home']);
-          });
-      }
+    this.userId = localStorage.getItem('userId');
+    if (this.userId && this.selectedDevice && this.selectedPeriod) {
+      const usagePlan: UsagePlan = {
+        id: '',
+        deviceName: this.selectedDevice.name,
+        userId: this.userId,
+        applianceId: this.selectedDevice.id,
+        usagePeriodId: this.selectedPeriod.id,
+        price: this.selectedPeriod.price,
+        gsi: this.selectedPeriod.gsi,
+      };
+      this.createUsagePlan(usagePlan);
+    }
+  }
+
+  createUsagePlan(usagePlan: UsagePlan) {
+    this.usagePlanService.createUsagePlanObject(usagePlan).subscribe((res) => {
+      this.dialogRef.close();
+      this.router.navigate([`/usagePlans/${this.userId}`]);
     });
   }
 }

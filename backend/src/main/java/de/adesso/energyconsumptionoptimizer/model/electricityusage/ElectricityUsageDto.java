@@ -8,6 +8,7 @@ import java.util.UUID;
 public class ElectricityUsageDto {
     private UUID id;
     private UUID userId;
+    private String deviceName;
     private UUID applianceId;
     private UUID usagePeriodId;
     private double price;

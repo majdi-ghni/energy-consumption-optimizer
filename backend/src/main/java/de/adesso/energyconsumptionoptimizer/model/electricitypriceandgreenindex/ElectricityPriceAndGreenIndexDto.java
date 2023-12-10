@@ -6,11 +6,13 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.util.UUID;
 
 @Getter
 @Setter
 @Builder
 public class ElectricityPriceAndGreenIndexDto {
+    private UUID id;
     private Instant startTimeStamp;
     private Instant endTimeStamp;
     private double price;

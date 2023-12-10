@@ -18,6 +18,9 @@ public class ElectricityUsage {
     @Column(name = "user_id")
     private UUID userId;
 
+    @Column(name = "device_name")
+    private String deviceName;
+
     @Column(name = "appliance_id")
     private UUID applianceId;
 

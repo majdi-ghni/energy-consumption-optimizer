@@ -45,8 +45,8 @@ public class ElectricityUsageController {
         return this.electricityUsageService.getAllUsagesByUsageApplianceId(applianceId);
     }
 
-    @DeleteMapping("/delete")
-    public void deleteElectricityUsageObject(@RequestBody UUID id) {
+    @DeleteMapping("/delete/{id}")
+    public void deleteElectricityUsageObject(@PathVariable UUID id) {
         this.electricityUsageService.deleteElectricityUsageObject(id);
     }
 

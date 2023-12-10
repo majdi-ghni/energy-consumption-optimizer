@@ -7,6 +7,7 @@ import { HomepageComponent } from './pages/homepage/homepage.component';
 import { AuthGuardService } from './services/auth/auth-guard.service';
 import { PlanUsageComponent } from './pages/plan-usage/plan-usage.component';
 import { AppliancesComponent } from './pages/appliances/appliances.component';
+import { UsagePlanesComponent } from './pages/usage-planes/usage-planes.component';
 
 export const routes: Routes = [
   {
@@ -38,7 +39,7 @@ export const routes: Routes = [
   },
   {
     path: 'usagePlans/:userId',
-    component: AppliancesComponent,
+    component: UsagePlanesComponent,
     canActivate: [AuthGuardService],
   },
 ];

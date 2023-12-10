@@ -8,7 +8,6 @@ import { ApplianceService } from '../../services/apliance/appliance.service';
 import { SharedDataService } from '../../services/shared-data/shared-data.service';
 import { Appliance } from '../../model/applicance/appliance';
 import { ActivatedRoute } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-appliances',
@@ -36,7 +35,6 @@ export class AppliancesComponent implements OnInit {
     private applianceService: ApplianceService,
     private sharedDataService: SharedDataService,
     private activatedRoute: ActivatedRoute,
-    private formBuilder: FormBuilder,
   ) {}
 
   ngOnInit() {
@@ -84,8 +82,12 @@ export class AppliancesComponent implements OnInit {
   deleteAppliance(device: Appliance) {
     this.applianceService.deleteAppliance(device).subscribe(() => {
       const index = this.appliances.indexOf(device);
+      const filteredAppliancesIndex = this.filteredAppliances.indexOf(device);
       if (index !== -1) {
         this.appliances.splice(index, 1);
+      }
+      if (filteredAppliancesIndex != -1) {
+        this.filteredAppliances.splice(filteredAppliancesIndex, 1);
       }
     });
   }

@@ -33,8 +33,7 @@
               Erforderlich
             </mat-error>
           </div>
-          <div class="input-field-container"
-               *ngIf="getUsageType()">
+          <div class="input-field-container">
             <input
               [ngClass]="{'error': addDeviceForm.controls['durationOfUse'].touched && addDeviceForm.controls['durationOfUse'].hasError('required')}"
               type="number" formControlName="durationOfUse" id="last-input" class="input"

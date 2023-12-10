@@ -6,14 +6,13 @@ import de.adesso.energyconsumptionoptimizer.model.electricitypriceandgreenindex.
 import de.adesso.energyconsumptionoptimizer.model.greenelectricityindex.GreenElectricityIndexDto;
 import de.adesso.energyconsumptionoptimizer.repository.electricitypriceandgreenindex.ElectricityPriceAndGreenIndexRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -181,5 +180,9 @@ public class ElectricityPriceAndGreenIndexService {
 
     public ElectricityPriceAndGreenIndexDto getHighestEmissionsHour(String zipCode) {
         return this.electricityPriceAndGreenIndexMapper.electricityPriceAndGreenIndexEntityToDto(this.electricityPriceAndGreenIndexRepository.findHighestEmissionsHour(zipCode).get(0));
+    }
+
+    public ElectricityPriceAndGreenIndexDto getById(UUID id) {
+        return this.electricityPriceAndGreenIndexMapper.electricityPriceAndGreenIndexEntityToDto(this.electricityPriceAndGreenIndexRepository.getReferenceById(id));
     }
 }

@@ -2,11 +2,11 @@ package de.adesso.energyconsumptionoptimizer.controller.electricitypriceandgreen
 
 import de.adesso.energyconsumptionoptimizer.model.electricitypriceandgreenindex.ElectricityPriceAndGreenIndexDto;
 import de.adesso.energyconsumptionoptimizer.service.electricitypriceandgreenindex.ElectricityPriceAndGreenIndexService;
-import jakarta.websocket.server.PathParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @RestController
@@ -109,6 +109,11 @@ public class ElectricityPriceAndGreenIndexController {
     @GetMapping("/best-period")
     public List<ElectricityPriceAndGreenIndexDto> getBestPeriod(@RequestParam String zipCode, @RequestParam int hours){
         return electricityPriceAndGreenIndexService.getBestPeriod(zipCode, hours);
+    }
+
+    @GetMapping("/get/{id}")
+    public ElectricityPriceAndGreenIndexDto getById(@PathVariable UUID id) {
+        return electricityPriceAndGreenIndexService.getById(id);
     }
 
 }

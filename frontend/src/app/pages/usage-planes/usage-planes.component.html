@@ -6,7 +6,7 @@
     </div>
 
     <div *ngIf="appliances.length > 0" class="devices-container">
-      <span style="font-weight: bold">Ihre Haushaltsgeräte</span>
+      <span style="font-weight: bold">Nutzungszeiträume</span>
       <div class="table-header-container">
         <span style="font-weight: bold">Gerät</span>
         <i class='action-icon'></i>
@@ -16,7 +16,6 @@
           {{plan.deviceName}}
           <div class="list-icons-container">
             <i (click)="onInfoIconClick(plan)" class='info-icon'></i>
-            <i (click)="onEditIconClick(plan)" class='edit-icon'></i>
             <i (click)="deleteAppliance(plan)" class='delete-device-icon'></i>
           </div>
         </li>

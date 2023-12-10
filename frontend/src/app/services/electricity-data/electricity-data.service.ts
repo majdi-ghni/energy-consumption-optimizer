@@ -54,4 +54,10 @@ export class ElectricityDataService {
       );
     return null;
   }
+
+  getActualElectricityDataById(usagePeriodId: string) {
+    return this.httpClient.get<ElectricityPriceAndGreenIndex>(
+      `${apiUrl}/get/${usagePeriodId}`,
+    );
+  }
 }

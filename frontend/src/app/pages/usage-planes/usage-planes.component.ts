@@ -3,13 +3,17 @@ import { CommonModule } from '@angular/common';
 import { Appliance } from '../../model/applicance/appliance';
 import { ApplianceService } from '../../services/apliance/appliance.service';
 import { SharedDataService } from '../../services/shared-data/shared-data.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ModalBoxComponent } from '../../components/modal-box/modal-box.component';
 import { BackgroundComponent } from '../../components/background/background.component';
 import { SideNavComponent } from '../../components/side-nav/side-nav.component';
 import { UsagePlanService } from '../../services/usage-plan/usage-plan.service';
 import { UsagePlan } from '../../model/user/usage-plan';
 import { NavComponent } from '../../components/nav/nav.component';
+import { ElectricityDataService } from '../../services/electricity-data/electricity-data.service';
+import { ElectricityPriceAndGreenIndex } from '../../model/electricity-price-and-green-index/electricityPriceAndGreenIndex';
+import { DialogService } from '../../services/dialog/dialog.service';
+import { PeriodDataComponent } from '../../components/period-data/period-data.component';
 
 @Component({
   selector: 'app-usage-planes',
@@ -32,13 +36,15 @@ export class UsagePlanesComponent implements OnInit {
   searchInput: string = '';
   usagePlans: UsagePlan[] = [];
   filteredUsagePlans: UsagePlan[] = [];
+  usagePeriodDataArray: ElectricityPriceAndGreenIndex[] = [];
 
   constructor(
     private applianceService: ApplianceService,
     private sharedDataService: SharedDataService,
     private activatedRoute: ActivatedRoute,
     private usagePlanService: UsagePlanService,
-    private router: Router,
+    private electricityDataService: ElectricityDataService,
+    private dialogService: DialogService,
   ) {}
 
   ngOnInit() {
@@ -75,13 +81,6 @@ export class UsagePlanesComponent implements OnInit {
     }
   }
 
-  addAppliance(event: any) {
-    this.applianceService.addAppliance(event, this.userId).subscribe((res) => {
-      this.appliances.push(res);
-      console.log(res);
-    });
-  }
-
   deleteAppliance(usagePlan: UsagePlan) {
     this.usagePlanService.deleteUsagePlanObject(usagePlan.id).subscribe(() => {
       const index = this.usagePlans.indexOf(usagePlan);
@@ -96,7 +95,14 @@ export class UsagePlanesComponent implements OnInit {
   }
 
   onInfoIconClick(usagePlan: UsagePlan) {
-    console.log(usagePlan);
+    this.electricityDataService
+      .getActualElectricityDataById(usagePlan.usagePeriodId)
+      .subscribe((res) => {
+        const data = res;
+        this.dialogService.openDialog(PeriodDataComponent, {
+          data,
+        });
+      });
   }
 
   onEditIconClick(usagePlan: UsagePlan) {

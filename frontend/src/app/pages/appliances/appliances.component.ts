@@ -9,6 +9,7 @@ import { SharedDataService } from '../../services/shared-data/shared-data.servic
 import { Appliance } from '../../model/applicance/appliance';
 import { ActivatedRoute } from '@angular/router';
 import { NavComponent } from '../../components/nav/nav.component';
+import { DialogService } from '../../services/dialog/dialog.service';
 
 @Component({
   selector: 'app-appliances',
@@ -31,12 +32,12 @@ export class AppliancesComponent implements OnInit {
   appliances: Appliance[] = [];
   filteredAppliances: Appliance[] = [];
   userId: string = '';
-  searchInput: string = '';
 
   constructor(
     private applianceService: ApplianceService,
     private sharedDataService: SharedDataService,
     private activatedRoute: ActivatedRoute,
+    private dialogService: DialogService,
   ) {}
 
   ngOnInit() {
@@ -65,20 +66,11 @@ export class AppliancesComponent implements OnInit {
     }
   }
 
-  addAppliance(event: any) {
-    this.applianceService.addAppliance(event, this.userId).subscribe((res) => {
-      this.appliances.push(res);
-      console.log(res);
-    });
-  }
-
   openModalClicked() {
-    this.isModalOpen = !this.isModalOpen;
-    if (this.isModalOpen) {
-      this.display = 'block';
-    } else {
-      this.display = 'none';
-    }
+    const dialogRef = this.dialogService.openDialog(ModalBoxComponent, {});
+    dialogRef.subscribe(() => {
+      this.getAppliances();
+    });
   }
 
   deleteAppliance(device: Appliance) {

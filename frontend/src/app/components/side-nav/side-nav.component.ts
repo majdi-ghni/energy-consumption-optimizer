@@ -42,7 +42,7 @@ export class SideNavComponent implements OnInit {
   logout() {
     this.authService.logout();
     this.sessionManagementService.clearSession();
-    //localStorage.clear();
+    localStorage.clear();
     this.router.navigate(['/login']);
   }
 }

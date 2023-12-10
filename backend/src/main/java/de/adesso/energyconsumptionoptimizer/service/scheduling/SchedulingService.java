@@ -79,6 +79,11 @@ public class SchedulingService {
      */
     public void initUserRegister(String zipCode) {
         List<String> zipCodes = new ArrayList<>();
+        int zipCodeLength = 5;
+        if (zipCode.length() != zipCodeLength) {
+            zipCode = "10115";
+        }
+
         zipCodes.add(zipCode);
 
         if (zipCodes != null || !zipCodes.isEmpty()) {

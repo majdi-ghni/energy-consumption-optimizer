@@ -1,7 +1,7 @@
 package de.adesso.energyconsumptionoptimizer.controller.appliance;
 
 import de.adesso.energyconsumptionoptimizer.model.user.Appliance;
-import de.adesso.energyconsumptionoptimizer.service.ApplianceService;
+import de.adesso.energyconsumptionoptimizer.service.user.ApplianceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

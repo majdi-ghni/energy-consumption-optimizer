@@ -1,4 +1,4 @@
-package de.adesso.energyconsumptionoptimizer.service;
+package de.adesso.energyconsumptionoptimizer.service.user;
 
 import de.adesso.energyconsumptionoptimizer.model.user.Appliance;
 import de.adesso.energyconsumptionoptimizer.model.user.User;

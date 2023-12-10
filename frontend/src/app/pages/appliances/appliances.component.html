@@ -8,9 +8,6 @@
       <i (click)="openModalClicked()" class='add-device-icon'></i>
       <a (click)="openModalClicked()">Haushaltsgeräte hinzufügen</a>
     </div>
-    <div style="margin-top: 5%; ">
-      <app-modal-box [display]="display" (onApplianceInitialize)="addAppliance($event)"></app-modal-box>
-    </div>
 
     <div *ngIf="appliances.length > 0" class="devices-container">
       <span style="font-weight: bold">Ihre Haushaltsgeräte</span>

@@ -115,8 +115,6 @@
       <div
         class="modal-box-container"
       >
-        <app-modal-box [display]="display" (onApplianceInitialize)="addAppliance($event)"></app-modal-box>
-
         <div *ngIf="appliances.length > 0" class="devices-container">
           <span style="font-weight: bold">Ihre Haushaltsgeräte</span>
           <ol *ngFor="let device of appliances">

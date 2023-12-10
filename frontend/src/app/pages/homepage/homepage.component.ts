@@ -4,9 +4,6 @@ import { SideNavComponent } from '../../components/side-nav/side-nav.component';
 import { BackgroundComponent } from '../../components/background/background.component';
 import { SelectMenuComponent } from '../../components/select-menu/select-menu.component';
 import { ElectricityDataComponent } from '../../components/electricity-data/electricity-data.component';
-import { UserService } from '../../services/user/user.service';
-import { SessionManagementService } from '../../services/auth/session-management.service';
-import { User } from '../../model/user/user';
 import { DateTime } from 'luxon';
 import { ModalBoxComponent } from '../../components/modal-box/modal-box.component';
 import { ApplianceService } from '../../services/apliance/appliance.service';
@@ -35,7 +32,7 @@ import { NavComponent } from '../../components/nav/nav.component';
   styleUrls: ['./homepage.component.css', '../register/register.component.css'],
 })
 export class HomepageComponent implements OnInit {
-  user: User | null = null;
+  userId: string | null = null;
   city: string = '';
   startTime: DateTime;
   endTime: DateTime;
@@ -44,37 +41,22 @@ export class HomepageComponent implements OnInit {
   values: SelectMenu[] = [];
 
   constructor(
-    private userService: UserService,
-    private sessionManagement: SessionManagementService,
     private applianceService: ApplianceService,
     private router: Router,
     private sharedDataService: SharedDataService,
   ) {
     this.startTime = DateTime.now().startOf('hour').toLocal();
     this.endTime = this.startTime.plus({ hour: 1 });
+    this.userId = localStorage.getItem('userId');
   }
 
   ngOnInit() {
-    console.log('on init');
-    this.loadData();
-  }
-
-  loadData() {
-    console.log('load data');
-    let username = this.sessionManagement.getUser().username;
-    this.userService.getUserByUsername(username).subscribe((res) => {
-      this.user = res;
-      localStorage.setItem('userId', this.user.id);
-      localStorage.setItem('zipCode', this.user.address.zipCode);
-      this.loadAppliances();
-    });
+    this.loadAppliances();
   }
 
   loadAppliances() {
-    console.log('load appliances');
-    const userId = this.user?.id;
-    if (userId) {
-      this.applianceService.getAppliances(userId).subscribe((res) => {
+    if (this.userId) {
+      this.applianceService.getAppliances(this.userId).subscribe((res) => {
         this.appliances = res.filter(
           // display only devices that could be planed
           (a) => a.applianceUsageType == ApplianceUsageType.PLANNED_USE,
@@ -87,13 +69,11 @@ export class HomepageComponent implements OnInit {
   }
 
   onPlanUsageClick() {
-    console.log('on plan usage click');
-    const userId = this.user?.id;
-    if (userId && this.selectedDevice) {
-      if (this.user) {
+    if (this.userId && this.selectedDevice) {
+      if (this.userId) {
         this.sharedDataService.setSelectedAppliance(this.selectedDevice);
         this.router.navigateByUrl(
-          '/planUsage/'.concat(this.user.id, '/', this.selectedDevice.name),
+          '/planUsage/'.concat(this.userId, '/', this.selectedDevice.name),
         );
       } else {
         console.log('Benutzer nicht gefunden');
@@ -104,7 +84,6 @@ export class HomepageComponent implements OnInit {
   }
 
   onSelect($event: any) {
-    console.log('on select');
     this.selectedDevice = $event.objectValue;
   }
 }

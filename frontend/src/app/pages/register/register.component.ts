@@ -21,6 +21,9 @@ import { ModalBoxComponent } from '../../components/modal-box/modal-box.componen
 import { InputComponent } from '../../components/input/input.component';
 import { SelectMenuComponent } from '../../components/select-menu/select-menu.component';
 import { Appliance } from '../../model/applicance/appliance';
+import { DialogService } from '../../services/dialog/dialog.service';
+import { MatDialogRef } from '@angular/material/dialog';
+import { ApplianceService } from '../../services/apliance/appliance.service';
 
 @Component({
   selector: 'app-register',
@@ -37,6 +40,12 @@ import { Appliance } from '../../model/applicance/appliance';
     ModalBoxComponent,
     InputComponent,
     SelectMenuComponent,
+  ],
+  providers: [
+    {
+      provide: MatDialogRef,
+      useValue: {},
+    },
   ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
@@ -60,6 +69,9 @@ export class RegisterComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private tokenService: SessionManagementService,
+    private dialogService: DialogService,
+    private applianceService: ApplianceService,
+    private sessionManagement: SessionManagementService,
   ) {
     this.user = {
       id: '',
@@ -110,35 +122,53 @@ export class RegisterComponent implements OnInit {
     this.user.totalCo2Footprint = 0;
     this.user.totalElectricityCost = 0;
     this.user.lastMonthBill = 0;
-    console.log(this.appliances);
-    console.log(this.user);
-    //TODO: create appliance service. first save user, then get its id, then save appliances from frontend through calling its service in BE and giving the saved User id
     this.userService.createUser(this.user).subscribe((res) => {
       if (typeof res == 'number') {
         console.log('Fehler beim Registrieren');
       }
+
       this.authService
         .login(this.user.username, this.user.password)
         .subscribe((data) => {
-          this.tokenService.saveUser(data);
-          localStorage.setItem('access_token', data.tokens.BEARER);
-          this.router.navigate(['/home']);
+          this.saveUser(data);
         });
     });
   }
 
-  openModalClicked() {
-    this.isModalOpen = !this.isModalOpen;
-    if (this.isModalOpen) {
-      this.display = 'block';
-    } else {
-      this.display = 'none';
-    }
+  saveUser(data: any) {
+    this.tokenService.saveUser(data);
+    localStorage.setItem('access_token', data.tokens.BEARER);
+    let username = this.sessionManagement.getUser().username;
+    this.getUser(username);
   }
 
-  addAppliance($event: any) {
-    this.appliances.push($event);
+  getUser(username: string) {
+    this.userService.getUserByUsername(username).subscribe((res) => {
+      this.user = res;
+      localStorage.setItem('userId', this.user.id);
+      localStorage.setItem('zipCode', this.user.address.zipCode);
+      const userId = this.user.id;
+      this.saveAppliances(userId);
+    });
+  }
+
+  saveAppliances(userId: string) {
+    this.appliances.forEach((device) => (device.userId = userId));
     this.user.appliances = this.appliances;
+    this.applianceService
+      .saveAllAppliances(this.appliances, this.user.id)
+      .subscribe((appliances) => {
+        console.log(appliances);
+        this.router.navigate(['/home']);
+      });
+  }
+
+  openModalClicked() {
+    const dialogRef = this.dialogService.openDialog(ModalBoxComponent);
+    dialogRef.subscribe((data) => {
+      this.appliances.push(data.appliance);
+      this.user.appliances = this.appliances;
+    });
   }
 
   deleteAppliance(device: Appliance) {

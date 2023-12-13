@@ -68,12 +68,9 @@ export class ModalBoxComponent implements OnInit {
     private userService: UserService,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    this.userId = localStorage.getItem('userId');
     this.editDevice = this.data;
     if (this.editDevice && this.editDevice.user) {
       this.userId = this.editDevice.user.id;
-    } else if (this.data) {
-      this.userId = this.data.userId;
     }
   }
 
@@ -116,24 +113,20 @@ export class ModalBoxComponent implements OnInit {
       console.log('Bitte die Gerät Datenfelder ausfüllen');
       return;
     }
-    console.log(this.data);
-    console.log(this.userId);
+
     if (this.userId) {
       this.userService.getUser(this.userId).subscribe((res) => {
         this.user = res;
-        this.initializeAppliance();
+        this.updateAppliance();
       });
     } else {
-      this.appliance = {
-        id: '',
-        name: this.addDeviceForm.get('deviceName')?.value,
-        powerRating: this.addDeviceForm.get('powerConsumption')?.value, //amount of electrical power the appliance consumes in kilowatts
-        estimatedUsageDuration: this.addDeviceForm.get('durationOfUse')?.value, //duration in minutes
-        applianceUsageType: this.usageType,
-      };
-      const appliance = this.appliance;
-      this.addDeviceForm.reset();
-      this.dialogRef.close({ appliance });
+      this.userId = localStorage.getItem('userId');
+      if (this.userId) {
+        this.userService.getUser(this.userId).subscribe((res) => {
+          this.user = res;
+          this.createAppliance();
+        });
+      }
     }
   }
 
@@ -159,8 +152,26 @@ export class ModalBoxComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  initializeAppliance() {
-    if (!this.editDevice && this.user) {
+  updateAppliance() {
+    if (this.editDevice && this.user) {
+      console.log('edit mode');
+      this.appliance = {
+        id: this.editDevice.id,
+        name: this.addDeviceForm.get('deviceName')?.value,
+        powerRating: this.addDeviceForm.get('powerConsumption')?.value, //amount of electrical power the appliance consumes in kilowatts
+        estimatedUsageDuration: this.addDeviceForm.get('durationOfUse')?.value, //duration in minutes
+        applianceUsageType: this.usageType,
+        user: this.user,
+      };
+      this.applianceService.updateAppliance(this.appliance).subscribe((res) => {
+        this.addDeviceForm.reset();
+        this.dialogRef.close({ res });
+      });
+    }
+  }
+
+  createAppliance() {
+    if (this.user) {
       this.appliance = {
         id: '',
         name: this.addDeviceForm.get('deviceName')?.value,
@@ -174,16 +185,8 @@ export class ModalBoxComponent implements OnInit {
         .addAppliance(this.appliance, this.user?.id)
         .subscribe((res) => {
           this.addDeviceForm.reset();
-          console.log(res);
           this.dialogRef.close({ res });
         });
-    } else {
-      console.log('edit mode');
-      this.applianceService.updateAppliance(this.appliance).subscribe((res) => {
-        this.addDeviceForm.reset();
-        console.log(res);
-        this.dialogRef.close({ res });
-      });
     }
   }
 }

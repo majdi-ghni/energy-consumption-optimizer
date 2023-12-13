@@ -11,7 +11,7 @@ import java.util.UUID;
 public class ApplianceDto {
     private UUID id;
 
-    private UserDto userDto;
+    private UserDto user;
 
     private String name; // name or type of the appliance
 

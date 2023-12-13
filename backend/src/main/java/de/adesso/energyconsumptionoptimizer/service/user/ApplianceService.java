@@ -22,7 +22,7 @@ public class ApplianceService {
     @Transactional
     public ApplianceDto addAppliance(ApplianceDto appliance, UUID userId) {
         User user = this.userRepository.findById(userId).get();
-        appliance.setUserDto(this.userMapper.userEntityToDto(user));
+        appliance.setUser(this.userMapper.userEntityToDto(user));
 
         Appliance savedAppliance = this.applianceRepository.save(this.applianceMapper.dtoToEntity(appliance));
 
@@ -40,7 +40,7 @@ public class ApplianceService {
             UserDto userDto = this.userMapper.userEntityToDto(user);
             List<Appliance> applianceList = user.getAppliances();
 
-            applianceDtos.stream().forEach(a -> a.setUserDto(userDto));
+            applianceDtos.stream().forEach(a -> a.setUser(userDto));
             List<Appliance> appliances = applianceDtos.stream().map(a -> this.applianceMapper.dtoToEntity(a)).collect(Collectors.toList());
             applianceList.addAll(appliances);
             user.setAppliances(applianceList);

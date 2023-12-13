@@ -147,20 +147,9 @@ export class RegisterComponent implements OnInit {
       this.user = res;
       localStorage.setItem('userId', this.user.id);
       localStorage.setItem('zipCode', this.user.address.zipCode);
-      const userId = this.user.id;
-      this.saveAppliances(userId);
-    });
-  }
 
-  saveAppliances(userId: string) {
-    this.appliances.forEach((device) => (device.userId = userId));
-    this.user.appliances = this.appliances;
-    this.applianceService
-      .saveAllAppliances(this.appliances, this.user.id)
-      .subscribe((appliances) => {
-        console.log(appliances);
-        this.router.navigate(['/home']);
-      });
+      this.router.navigate(['/home']);
+    });
   }
 
   openModalClicked() {

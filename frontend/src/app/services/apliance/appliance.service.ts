@@ -9,8 +9,7 @@ const apiUrl = environment.apiUrl.concat('/appliance');
   providedIn: 'root',
 })
 export class ApplianceService {
-  constructor(private httpClient: HttpClient) {
-  }
+  constructor(private httpClient: HttpClient) {}
 
   addAppliance(appliance: Appliance, userId: string) {
     return this.httpClient.post<Appliance>(
@@ -30,7 +29,10 @@ export class ApplianceService {
   }
 
   saveAllAppliances(appliances: Appliance[], userId: string) {
-    return this.httpClient.post<Appliance[]>(`${apiUrl}/addMany/${userId}`, appliances);
+    return this.httpClient.post<Appliance[]>(
+      `${apiUrl}/addMany/${userId}`,
+      appliances,
+    );
   }
 
   deleteAppliance(deleteAppliance: Appliance) {
@@ -41,5 +43,10 @@ export class ApplianceService {
       body: deleteAppliance,
     };
     return this.httpClient.delete<Appliance>(`${apiUrl}/delete`, options);
+  }
+
+  updateAppliance(appliance: Appliance) {
+    console.log(appliance);
+    return this.httpClient.put<Appliance>(`${apiUrl}/update`, appliance);
   }
 }

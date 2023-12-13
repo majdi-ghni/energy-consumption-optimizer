@@ -50,6 +50,7 @@ public class AuthenticationService {
                 .role(request.getRole())
                 .actualTariff(request.getActualTariff())
                 .address(request.getAddress())
+                .appliances(request.getAppliances())
                 .build();
         Collection<SimpleGrantedAuthority> roles = new ArrayList<>();
         roles.add(new SimpleGrantedAuthority(user.getRole().toString()));

@@ -93,7 +93,11 @@ export class AppliancesComponent implements OnInit {
 
   onEditIconClick(device: Appliance) {
     console.log(device);
-    //ToDO: formGroup as input to modal box component
-    this.applianceService.deleteAppliance(device);
+    const dialogRef = this.dialogService.openDialog(ModalBoxComponent, {
+      data: device,
+    });
+    dialogRef.subscribe(() => {
+      this.getAppliances();
+    });
   }
 }

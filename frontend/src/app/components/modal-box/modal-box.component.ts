@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InputComponent } from '../input/input.component';
 import { SelectMenuComponent } from '../select-menu/select-menu.component';
@@ -14,7 +14,13 @@ import { MatInputModule } from '@angular/material/input';
 import { ApplianceUsageType } from '../../model/appliance-usage-type/applianceUsageType';
 import { SelectMenu } from '../../model/select-menu';
 import { ApplianceService } from '../../services/apliance/appliance.service';
-import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
+import { UserService } from '../../services/user/user.service';
+import { User } from '../../model/user/user';
 
 @Component({
   selector: 'app-modal-box',
@@ -53,13 +59,22 @@ export class ModalBoxComponent implements OnInit {
   ];
   usageType: ApplianceUsageType = ApplianceUsageType.CONTINUOUS_USE;
   userId: string | null = null;
+  user: User | null = null;
 
   constructor(
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<any>,
     private applianceService: ApplianceService,
+    private userService: UserService,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
     this.userId = localStorage.getItem('userId');
+    this.editDevice = this.data;
+    if (this.editDevice && this.editDevice.user) {
+      this.userId = this.editDevice.user.id;
+    } else if (this.data) {
+      this.userId = this.data.userId;
+    }
   }
 
   ngOnInit(): void {
@@ -73,6 +88,7 @@ export class ModalBoxComponent implements OnInit {
           Validators.required,
         ],
       });
+      this.setUsageType(this.editDevice.applianceUsageType);
     }
     // add new device mode
     else {
@@ -100,23 +116,13 @@ export class ModalBoxComponent implements OnInit {
       console.log('Bitte die Gerät Datenfelder ausfüllen');
       return;
     }
+    console.log(this.data);
+    console.log(this.userId);
     if (this.userId) {
-      this.appliance = {
-        id: '',
-        name: this.addDeviceForm.get('deviceName')?.value,
-        powerRating: this.addDeviceForm.get('powerConsumption')?.value, //amount of electrical power the appliance consumes in kilowatts
-        estimatedUsageDuration: this.addDeviceForm.get('durationOfUse')?.value, //duration in minutes
-        applianceUsageType: this.usageType,
-        userId: this.userId,
-      };
-      console.log(this.userId);
-      this.applianceService
-        .addAppliance(this.appliance, this.userId)
-        .subscribe((res) => {
-          this.addDeviceForm.reset();
-          console.log(res);
-          this.dialogRef.close({ res });
-        });
+      this.userService.getUser(this.userId).subscribe((res) => {
+        this.user = res;
+        this.initializeAppliance();
+      });
     } else {
       this.appliance = {
         id: '',
@@ -124,7 +130,6 @@ export class ModalBoxComponent implements OnInit {
         powerRating: this.addDeviceForm.get('powerConsumption')?.value, //amount of electrical power the appliance consumes in kilowatts
         estimatedUsageDuration: this.addDeviceForm.get('durationOfUse')?.value, //duration in minutes
         applianceUsageType: this.usageType,
-        userId: '',
       };
       const appliance = this.appliance;
       this.addDeviceForm.reset();
@@ -152,5 +157,33 @@ export class ModalBoxComponent implements OnInit {
     this.display = 'none';
     this.addDeviceForm.reset();
     this.dialogRef.close();
+  }
+
+  initializeAppliance() {
+    if (!this.editDevice && this.user) {
+      this.appliance = {
+        id: '',
+        name: this.addDeviceForm.get('deviceName')?.value,
+        powerRating: this.addDeviceForm.get('powerConsumption')?.value, //amount of electrical power the appliance consumes in kilowatts
+        estimatedUsageDuration: this.addDeviceForm.get('durationOfUse')?.value, //duration in minutes
+        applianceUsageType: this.usageType,
+        user: this.user,
+      };
+      console.log('create mode');
+      this.applianceService
+        .addAppliance(this.appliance, this.user?.id)
+        .subscribe((res) => {
+          this.addDeviceForm.reset();
+          console.log(res);
+          this.dialogRef.close({ res });
+        });
+    } else {
+      console.log('edit mode');
+      this.applianceService.updateAppliance(this.appliance).subscribe((res) => {
+        this.addDeviceForm.reset();
+        console.log(res);
+        this.dialogRef.close({ res });
+      });
+    }
   }
 }

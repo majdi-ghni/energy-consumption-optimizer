@@ -15,6 +15,7 @@ import { Router, RouterLink } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { SessionManagementService } from '../../services/auth/session-management.service';
 import { AuthService } from '../../services/auth/auth.service';
+import { UserService } from '../../services/user/user.service';
 
 @Component({
   selector: 'app-login',
@@ -46,6 +47,7 @@ export class LoginComponent {
     private tokenService: SessionManagementService,
     private authService: AuthService,
     private router: Router,
+    private userService: UserService,
   ) {}
 
   onLoginClick() {
@@ -59,7 +61,15 @@ export class LoginComponent {
       .subscribe((data: any) => {
         this.tokenService.saveUser(data);
         localStorage.setItem('access_token', data.tokens.BEARER);
-        this.router.navigate(['/home']);
+        this.getUser(formData.userNameOrEmail);
       });
+  }
+
+  getUser(username: string) {
+    this.userService.getUserByUsername(username).subscribe((user) => {
+      localStorage.setItem('userId', user.id);
+      localStorage.setItem('zipCode', user.address.zipCode);
+      this.router.navigate(['/home']);
+    });
   }
 }

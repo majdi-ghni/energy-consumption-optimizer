@@ -138,11 +138,13 @@ export class ModalBoxComponent implements OnInit {
     if ($event.displayedValue == this.values[2].displayedValue) {
       this.usageType = ApplianceUsageType.SPORADIC_USE;
       this.addDeviceForm.controls['durationOfUse'].enable(); // Enable the control
-      this.addDeviceForm.reset({ durationOfUse: '' });
+      this.addDeviceForm.controls['durationOfUse'].patchValue(''); // Reset the durationOfUse control
+      this.addDeviceForm.controls['durationOfUse'].markAsUntouched();
     } else if ($event.displayedValue == this.values[0].displayedValue) {
       this.usageType = ApplianceUsageType.PLANNED_USE;
       this.addDeviceForm.controls['durationOfUse'].enable(); // Enable the control
-      this.addDeviceForm.reset({ durationOfUse: '' });
+      this.addDeviceForm.controls['durationOfUse'].patchValue(''); // Reset the durationOfUse control
+      this.addDeviceForm.controls['durationOfUse'].markAsUntouched();
     } else {
       this.usageType = ApplianceUsageType.CONTINUOUS_USE;
       this.addDeviceForm.controls['durationOfUse'].setValue(24 * 60); // setting 24/7 usage duration

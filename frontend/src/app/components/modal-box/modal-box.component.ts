@@ -127,6 +127,10 @@ export class ModalBoxComponent implements OnInit {
           this.createAppliance();
         });
       }
+      // user not yet registered
+      else {
+        this.addApplianceBeforeRegister();
+      }
     }
   }
 
@@ -188,5 +192,18 @@ export class ModalBoxComponent implements OnInit {
           this.dialogRef.close({ res });
         });
     }
+  }
+
+  addApplianceBeforeRegister() {
+    this.appliance = {
+      id: '',
+      name: this.addDeviceForm.get('deviceName')?.value,
+      powerRating: this.addDeviceForm.get('powerConsumption')?.value, //amount of electrical power the appliance consumes in kilowatts
+      estimatedUsageDuration: this.addDeviceForm.get('durationOfUse')?.value, //duration in minutes
+      applianceUsageType: this.usageType,
+    };
+    const appliance = this.appliance;
+    this.addDeviceForm.reset();
+    this.dialogRef.close({ appliance });
   }
 }

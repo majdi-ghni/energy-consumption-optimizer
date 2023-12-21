@@ -20,7 +20,7 @@ The Energy Consumption Optimizer is a web application developed as part of a bac
 - **Database**: PostgreSQL
 - **Authentication**: Spring Security with JWT
 - **Data Mapping**: MapStruct, Lombok
-- **External Data Sources**: Various external APIs
+- **External Data Sources**: Corrently API
 - **Task Scheduling**: ScheduledExecutorService
 
 ---

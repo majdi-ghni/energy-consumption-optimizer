@@ -1,6 +1,5 @@
-package de.adesso.energyconsumptionoptimizer.controller.appliance;
+package de.adesso.energyconsumptionoptimizer.controller.user;
 
-import de.adesso.energyconsumptionoptimizer.model.user.Appliance;
 import de.adesso.energyconsumptionoptimizer.model.user.ApplianceDto;
 import de.adesso.energyconsumptionoptimizer.service.user.ApplianceService;
 import lombok.RequiredArgsConstructor;

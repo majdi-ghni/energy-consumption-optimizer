@@ -9,12 +9,9 @@ The Energy Consumption Optimizer is a web application developed as part of a bac
 
 ## Features:
 
-- **Real-time Price Analysis**: The app fetches current electricity pricing data and suggests the most cost-effective
-  times for operating devices.
-
-- **Environmental Impact**: Along with cost-saving recommendations, users get insights into their CO2 emissions and the
-  proportion of renewable energy in their consumption.
-
+- **Real-time Price Analysis**: The app fetches current electricity pricing data and suggests the most cost-effective times for operating devices.
+  
+- **Environmental Impact**: Along with cost-saving recommendations, users get insights into their CO2 emissions and the proportion of renewable energy in their consumption.
 ---
 
 ## Technologies Used:
@@ -23,37 +20,32 @@ The Energy Consumption Optimizer is a web application developed as part of a bac
 - **Database**: PostgreSQL
 - **Authentication**: Spring Security with JWT
 - **Data Mapping**: MapStruct, Lombok
-- **External Data Sources**: Various external APIs
+- **External Data Sources**: Corrently API
 - **Task Scheduling**: ScheduledExecutorService
 
 ---
 
 ## Prerequisites
-
-### mandatory:
-
-- Java version 19
-- Apache Maven
-- Docker
+### mandatory: 
+- Java version 19 
+- Apache Maven  
+- Docker  
 
 ### optional (recommended):
-
-- DBeaver
-
+- DBeaver 
 ---
 
 ## Set-up
-
 Ensure you have the Docker daemon or Docker Desktop running before proceeding.
 
-1. **Clone the repository**:
-   `git clone https://github.com/majdi-ghni/energy-consumption-optimizer.git`
+1. **Clone the repository**: 
+    `git clone https://github.com/majdi-ghni/energy-consumption-optimizer.git`
 
 2. **Navigate to the project directory**:
-   `cd energy-consumption-optimizer/src/main/docker`
+    `cd energy-consumption-optimizer/src/main/docker`
 3. **Create and start the docker container for the database by executing the following command:
    `docker-compose up --build`
-
+   
 ### DBeaver setup & Database connection
 
 Create a new connection of type `PostgreSQL`.
@@ -63,12 +55,11 @@ The password for the user `root` is `changeme`.
 --------
 
 ## Getting Started:
-
 1. **Navigate to the project directory**:
-   `cd energy-consumption-optimizer`
+    `cd energy-consumption-optimizer`
 
 2. **Install dependencies**:
-   `mvn install`
+    `mvn install`
 
 3. **Run the application**:
-   `mvn spring-boot:run`
+    `mvn spring-boot:run`

@@ -1,0 +1,72 @@
+<div class="modale">
+  <div class="modale-dialog">
+    <h2 class="header">Haushaltsgerät hinzufügen</h2>
+    <div class="content">
+      <form [formGroup]="addDeviceForm">
+        <div class="input-container">
+          <div class="input-field-container">
+            <input
+              [ngClass]="{'error': addDeviceForm.controls['deviceName'].touched && addDeviceForm.controls['deviceName'].hasError('required')}"
+              type="text" formControlName="deviceName" class="input" placeholder="Gerät">
+            <mat-error
+              *ngIf="
+                addDeviceForm.controls['deviceName'].touched &&
+                addDeviceForm.controls['deviceName'].hasError('required')
+              "
+              class="mat-error"
+            >
+              Erforderlich
+            </mat-error>
+          </div>
+          <div class="input-field-container">
+            <input
+              [ngClass]="{'error': addDeviceForm.controls['powerConsumption'].touched && addDeviceForm.controls['powerConsumption'].hasError('required')}"
+              type="number" formControlName="powerConsumption" class="input"
+              placeholder="Stromverbrauch (kWh)">
+            <mat-error
+              *ngIf="
+                addDeviceForm.controls['powerConsumption'].touched &&
+                addDeviceForm.controls['powerConsumption'].hasError('required')
+              "
+              class="mat-error"
+            >
+              Erforderlich
+            </mat-error>
+          </div>
+          <div class="input-field-container">
+            <input
+              [ngClass]="{'error': addDeviceForm.controls['durationOfUse'].touched && addDeviceForm.controls['durationOfUse'].hasError('required')}"
+              type="number" formControlName="durationOfUse" id="last-input" class="input"
+              placeholder="Nutzungsdauer (Min.)">
+            <mat-error
+              *ngIf="
+                addDeviceForm.controls['durationOfUse'].touched
+                && addDeviceForm.controls['durationOfUse'].hasError('required')
+              "
+              class="mat-error"
+            >
+              Erforderlich
+            </mat-error>
+          </div>
+
+        </div>
+
+      </form>
+      <div class="menu">
+        <span class="header">Nutzungsart</span>
+        <app-select-menu
+          (selectedValueEvent)="setUsageType($event)" [values]="values"
+          placeHolder="Wählen Sie wie oft ist das Gerät im Betrieb"
+        >
+        </app-select-menu>
+      </div>
+    </div>
+    <div class="button-container">
+      <app-button (click)="onCancelClick()" buttonClass="button-secondary-orange" id="cancel"
+                  buttonText="Abbrechen"></app-button>
+      <app-button (click)="onAddClick()" buttonClass="button-secondary-green" id="add"
+                  buttonText="Hinzufügen"></app-button>
+    </div>
+
+  </div>
+</div>

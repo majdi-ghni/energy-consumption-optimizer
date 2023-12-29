@@ -1,0 +1,11 @@
+.input {
+  border: 1px solid #3dbb51; /* Default border color */
+  outline: none; /* Remove the default focus outline */
+  padding: 5px; /* Add padding inside the input */
+  border-radius: 4px; /* Round the corners of the input field */
+}
+
+.input:focus {
+  border-color: #2a8f36; /* Border color when the input is focused */
+  box-shadow: 0 0 5px rgba(58, 187, 81, 0.5); /* Add a shadow for a glowing effect */
+}

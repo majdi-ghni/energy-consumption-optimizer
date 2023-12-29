@@ -1,0 +1,24 @@
+.register-container {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10%;
+}
+
+.forgot-password-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start; /* Align to the left */
+}
+
+a {
+  font-size: large;
+}
+
+
+span + a {
+  margin-left: 10px; /* Space between every span & a elements */
+}
+
+.button-container {
+  margin-top: 10%;
+}

@@ -1,0 +1,55 @@
+<app-background>
+  <form [formGroup]="loginForm">
+    <div class="container">
+      <div class="image-container">
+        <img class="image" src="../../../assets/background-image.jpg">
+      </div>
+      <div class="input-field-container">
+        <input
+          type="text"
+          placeholder="Benutzername oder Email"
+          class="input"
+          formControlName="userNameOrEmail"
+          [ngClass]="{'error': loginForm.controls['userNameOrEmail'].touched && loginForm.controls['userNameOrEmail'].hasError('required')}"
+        >
+        <mat-error
+          *ngIf="
+                loginForm.controls['userNameOrEmail'].touched &&
+                loginForm.controls['userNameOrEmail'].hasError('required')
+              "
+          class="mat-error"
+        >
+          Erforderlich
+        </mat-error>
+      </div>
+      <div class="input-field-container">
+        <input
+          type="password"
+          placeholder="Passwort"
+          class="input"
+          formControlName="password"
+          [ngClass]="{'error': loginForm.controls['password'].touched && loginForm.controls['password'].hasError('required')}"
+        >
+        <mat-error
+          *ngIf="
+                loginForm.controls['password'].touched &&
+                loginForm.controls['password'].hasError('required')
+              "
+          class="mat-error"
+        >
+          Erforderlich
+        </mat-error>
+      </div>
+      <div class="forgot-password-container">
+        <a routerLink="/forgotPassword"> Passwort Vergessen?</a>
+      </div>
+      <div class="button-container">
+        <app-button buttonText="ANMELDEN" (buttonClickedEvent)="onLoginClick()"></app-button>
+      </div>
+      <div class="register-container">
+        <span>Noch nicht registriert?</span>
+        <a routerLink="/register">Registrieren</a>
+      </div>
+    </div>
+  </form>
+</app-background>

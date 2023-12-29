@@ -1,0 +1,14 @@
+<div>
+  <div class="head-container">
+    <span class="city">Aktuelle Strom in {{city}}</span>
+    <span>{{startTime.toISO() | date: 'HH:mm'}} Uhr - {{endTime.toISO() | date: 'HH:mm'}} Uhr</span>
+  </div>
+
+  <div>
+  <span class="circle">
+    <span class="value">{{price | number : '1.2-2'}} cent</span>
+    <span class="value">{{greenIndex | number: '1.2-2'}}g CO₂</span>
+    <span>je kWh</span>
+  </span>
+  </div>
+</div>

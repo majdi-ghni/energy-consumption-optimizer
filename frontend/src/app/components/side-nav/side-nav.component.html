@@ -1,0 +1,38 @@
+<div class="container">
+  <i class="nav-icon" (click)="onClick()"></i>
+
+  <div *ngIf="clicked" id="my-sidenav" class="side-nav-window">
+    <div class="home-container">
+      <i routerLink="/home" class="home-icon"></i>
+      <span>EcoVolt</span>
+    </div>
+    <div class="icon-container">
+      <i class="dashboard-icon"></i>
+      <a routerLink="/home">Dashboard</a>
+    </div>
+    <div class="icon-container">
+      <i class="data-history-icon"></i>
+      <a routerLink="">Historische Daten</a>
+    </div>
+    <div class="icon-container">
+      <i class="calender-icon"></i>
+      <a [routerLink]="usagePlansLink">Zeitpl&auml;ne</a>
+    </div>
+    <div class="icon-container">
+      <i class="bill-icon"></i>
+      <a routerLink="">Abrechnungen</a>
+    </div>
+    <div class="icon-container">
+      <i class="devices-icon"></i>
+      <a [routerLink]="appliancesLink">Meine Ger&auml;te</a>
+    </div>
+    <div class="icon-container">
+      <i class="setting-icon"></i>
+      <a routerLink="">Einstellungen</a>
+    </div>
+    <div class="icon-container">
+      <i (click)="logout()" class="logout-icon"></i>
+      <a (click)="logout()" routerLink="">Ausloggen</a>
+    </div>
+  </div>
+</div>

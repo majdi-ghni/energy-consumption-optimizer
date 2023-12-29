@@ -1,0 +1,92 @@
+.electricity-component {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+.icon-container {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.icon-container a {
+  margin-left: 10px;
+}
+
+.optimal-period-icon {
+  background-image: url("../../../assets/optimal-period-icon.png");
+  background-repeat: no-repeat;
+  display: block;
+  background-size: 40px 40px;
+  height: 40px;
+  width: 40px;
+}
+
+.green-period-icon {
+  background-image: url("../../../assets/green-period-icon.png");
+  background-repeat: no-repeat;
+  display: block;
+  background-size: 40px 40px;
+  height: 40px;
+  width: 40px;
+}
+
+.cheap-period-icon {
+  background-image: url("../../../assets/cheap-period-icon.png");
+  background-repeat: no-repeat;
+  display: block;
+  background-size: 40px 40px;
+  height: 40px;
+  width: 40px;
+}
+
+.expensive-period-icon {
+  background-image: url("../../../assets/expensive-period-icon.png");
+  display: block;
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.high-emissions-period-icon {
+  background-image: url("../../../assets/high-emissions-icon.png");
+  display: block;
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  width: 40px;
+  height: 40px;
+}
+
+.worst-period-icon {
+  background-image: url("../../../assets/worst-period-icon.png");
+  display: block;
+  background-repeat: no-repeat;
+  background-size: 40px 40px;
+  width: 40px;
+  height: 40px;
+}
+
+a {
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+.icon-container:last-of-type {
+  margin-bottom: 50px;
+}
+
+h3 {
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+hr {
+  margin-top: 20px;
+}

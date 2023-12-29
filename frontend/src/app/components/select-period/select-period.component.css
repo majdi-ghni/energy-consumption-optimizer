@@ -1,0 +1,15 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-top: 20px;
+  padding: 15px 15px;
+}
+
+.button-container app-button:first-child {
+  margin-right: 40px;
+}
+
+h3 {
+  font-weight: bold;
+}

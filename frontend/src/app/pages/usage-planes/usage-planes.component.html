@@ -1,0 +1,25 @@
+<app-background>
+  <app-nav></app-nav>
+  <div class="container">
+    <div class="search-container">
+      <input id="search-bar" (input)="onSearchInputChange($event)">
+    </div>
+
+    <div *ngIf="appliances.length > 0" class="devices-container">
+      <span style="font-weight: bold">Nutzungszeiträume</span>
+      <div class="table-header-container">
+        <span style="font-weight: bold">Gerät</span>
+        <i class='action-icon'></i>
+      </div>
+      <ul *ngFor="let plan of filteredUsagePlans; let i = index;">
+        <li [ngClass]="{'even-item': i % 2 === 0, 'odd-item': i % 2 !== 0}">
+          {{plan.deviceName}}
+          <div class="list-icons-container">
+            <i (click)="onInfoIconClick(plan)" class='info-icon'></i>
+            <i (click)="deleteAppliance(plan)" class='delete-device-icon'></i>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</app-background>

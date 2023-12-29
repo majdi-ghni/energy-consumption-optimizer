@@ -55,12 +55,4 @@ public class UserDto {
     private Instant updatedAt;
 
     private List<Appliance> appliances;
-
-    // TODO: make relation n -> n for electricityPrices & greenElectricityIndexList
-    private List<ElectricityPrice> electricityPrices;
-
-    private List<GreenElectricityIndex> greenElectricityIndexList;
-
-    private List<ElectricityPriceAndGreenIndex> electricityPriceAndGreenIndexList;
-
 }

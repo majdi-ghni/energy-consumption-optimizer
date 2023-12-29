@@ -27,8 +27,4 @@ public class ElectricityPriceAndGreenIndex {
     private int standardElectricityCo2InGram; // holds the weight of co2 of standard electricity in gram unit
     private String city;
     private String zipCode;
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
 }

@@ -38,10 +38,6 @@ public class ElectricityPrice {
     private String zipCode;
     private String unit; // in Eur/MWh
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
     /**
      * prevent an entity from being updated after it is initially persisted.
      */

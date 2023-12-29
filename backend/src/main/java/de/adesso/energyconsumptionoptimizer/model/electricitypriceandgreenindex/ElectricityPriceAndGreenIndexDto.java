@@ -21,5 +21,4 @@ public class ElectricityPriceAndGreenIndexDto {
     private int standardElectricityCo2InGram; // holds the weight of co2 of standard electricity in gram unit
     private String city;
     private String zipCode;
-    User user;
 }

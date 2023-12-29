@@ -29,10 +29,6 @@ public class GreenElectricityIndex {
     private int ecoElectricityCo2InGram; // holds the weight of co2 of eco electricity in gram unit
     private int standardElectricityCo2InGram; // holds the weight of co2 of standard electricity in gram unit
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
     /**
      * Entity not updatable
      */

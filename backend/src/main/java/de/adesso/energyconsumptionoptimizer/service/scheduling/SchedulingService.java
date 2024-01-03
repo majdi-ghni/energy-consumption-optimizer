@@ -194,7 +194,7 @@ public class SchedulingService {
         greenElectricityIndexRepository.saveAll(electricityIndexes);
 
         // Get the end time of the last green electricity index minus MINIMUM_FORECAST_HOURS in the future
-        Instant endTime = electricityIndexes.get(electricityIndexes.size() - 1).getEndTimeStamp().minus(MINIMUM_FORECAST_HOURS, ChronoUnit.HOURS);
+        Instant endTime = greenElectricityIndex.getEndTimeStamp().minus(MINIMUM_FORECAST_HOURS, ChronoUnit.HOURS);
         // Calculate the delay until this end time
         long delay = Duration.between(Instant.now(), endTime).toMillis();
         // Schedule a task to fetch new green electricity indexes at this end time

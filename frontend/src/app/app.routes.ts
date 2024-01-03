@@ -42,6 +42,7 @@ export const routes: Routes = [
     component: UsagePlanesComponent,
     canActivate: [AuthGuardService],
   },
+  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Default route
 ];
 
 @NgModule({
